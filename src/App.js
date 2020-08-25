@@ -10,14 +10,6 @@ function App() {
   return (
     <div>
       <Navbar />
-      <h1>Hello World</h1>
-
-      <ul className="list">
-        <li>About</li>
-        <li>Hello</li>
-      </ul>
-
-
       <MusicPlayer />
     </div>
   );

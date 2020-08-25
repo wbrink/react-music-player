@@ -3,6 +3,7 @@ import styles from "./MusicPlayer.module.scss";
 
 const MusicPlayer = (props) => {
   const audioRef = useRef(null);
+  const scrubRef = useRef(null);
   
   const [duration, setDuration] = useState();
 
@@ -18,22 +19,43 @@ const MusicPlayer = (props) => {
     // get duration of song
     // get the current time 
     // place the percentage as margin-left
-    e.d
+    let percentage = (audioRef.current.currentTime / duration) * 100;
+    console.log(percentage);
+    scrubRef.current.style.marginLeft = `${percentage}%`;
   }
 
   const canPlay = () => {
-    console.log("the music is loaded and can play");
-
+    setDuration(audioRef.current.duration);
   }
+
+  // when user clicks somewhere on timeline
+  const setPosition = (e) => {
+    const timeLineWidth = e.target.getBoundingClientRect().width;
+    const timeLineX = e.target.getBoundingClientRect().left;
+    const clickedX = e.clientX;
+
+    const percentage = (clickedX - timeLineX) / timeLineWidth * 100;
+    console.log("percentage", percentage);
+
+
+    // set the scrub to the new margin left
+    scrubRef.current.style.marginLeft = `${percentage}%`;
+
+    // get the percentage 
+
+  } 
 
   return (
     // container that holds play pause and slider
     <div>
-      <audio src="/title.mp3" ref={audioRef} onTimeUpdate={timeUpdate} onCanPlayThrough={canPlay}></audio>
+      <audio src="/humidity.mp3" ref={audioRef} onTimeUpdate={timeUpdate} onCanPlayThrough={canPlay}></audio>
       <button onClick={PlayClick}>Play</button>
       <button onClick={PauseClick}>Pause</button>
-      <div className={styles.timeline}>
-        <div className={styles.scrub}></div>
+
+      {/* timeline */}
+      <div className={styles.timeline} onClick={setPosition}>
+        {/* scrub */}
+        <div className={styles.scrub} ref={scrubRef}></div>
       </div>
     </div>
   );
