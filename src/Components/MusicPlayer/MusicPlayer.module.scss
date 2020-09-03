@@ -71,6 +71,14 @@ $clr-blue: rgb(46, 144, 236);
     color: white;
     height: 100%;
     justify-content: space-evenly;
+
+    @media only screen and (max-width: 780px) {
+      display: none;
+    }
+
+    @media only screen and (max-width: 320px) {
+      display: none;
+    }
   }
 
   img {
@@ -83,9 +91,9 @@ $clr-blue: rgb(46, 144, 236);
       height: 70px;
     }
 
-    @media only screen and (max-width: 320px) {
-      display: none;
-    }
+    // @media only screen and (max-width: 320px) {
+    //   display: none;
+    // }
   }
 }
 
