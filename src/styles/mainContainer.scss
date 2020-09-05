@@ -1,0 +1,9 @@
+// this container works around both the bottom player and the sidenav
+// sidenav is 250px width
+// bottom player is 75px height
+.container {  
+  width: calc(100% - 250px);
+  height: calc(100% - 75px);
+  margin-left: auto;
+  background-color: rgb(51, 51, 51);
+}

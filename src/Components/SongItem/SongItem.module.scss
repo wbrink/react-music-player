@@ -1,0 +1,54 @@
+@mixin ellipsis {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+
+.songItem {
+  padding: 10px 20px 10px 20px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  // border-top: 1px solid black;
+  border-bottom: 1px solid black;
+  transition: background 200ms ease-in-out;
+  color: rgb(233, 233, 233);
+
+  &:hover {
+    background: rgb(63, 63, 63);
+  }
+
+  &.active {
+    background: rgb(78, 78, 78);
+  }
+
+}
+
+.playButton {
+  flex: 0 0 30px;
+  display: flex;
+  align-items: center;
+}
+
+.song {
+  flex: 0 1 300px;
+  min-width: 250px;
+  padding-right: 10px;
+
+  // // 
+  // word-wrap: none;
+  @include ellipsis;
+}
+
+.artist {
+  flex: 0 1 200px;
+  min-width: 100px;
+  @include ellipsis;
+}
+
+.album {
+  flex: 0 1 100px;
+  @include ellipsis;
+}
+
