@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styles from "./Sidebar.module.scss";
 import image from "./music.svg";
+import {NavLink} from "react-router-dom";
 
 const Sidebar = (props) => {
 
@@ -23,8 +24,8 @@ const Sidebar = (props) => {
       {/* search portion */}
       <div className={styles.search}>
         <svg viewBox="0 0 16 16" className={styles.searchIcon} fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-          <path fill-rule="evenodd" d="M10.442 10.442a1 1 0 0 1 1.415 0l3.85 3.85a1 1 0 0 1-1.414 1.415l-3.85-3.85a1 1 0 0 1 0-1.415z"/>
-          <path fill-rule="evenodd" d="M6.5 12a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11zM13 6.5a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0z"/>
+          <path fillRule="evenodd" d="M10.442 10.442a1 1 0 0 1 1.415 0l3.85 3.85a1 1 0 0 1-1.414 1.415l-3.85-3.85a1 1 0 0 1 0-1.415z"/>
+          <path fillRule="evenodd" d="M6.5 12a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11zM13 6.5a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0z"/>
         </svg>
         <input type="text" id="search" placeholder="Search" value={search} onChange={(e) => setSearch(e.target.value)} maxLength={40}/>
 
@@ -37,10 +38,10 @@ const Sidebar = (props) => {
 
       {/* favorties tab to list favorites */}
       <div className={styles.links}>
-        <a href="/favorites" className={styles.active}>Explore</a>
-        <a href="/favorites" className={styles.active}>Library</a>
-        <a href="/favorites" className={styles.active}>Favorites</a>
-        <a href="/favorites" className={styles.active}>Playlists</a>
+        <NavLink to="/library" activeClassName={styles.active}>Library</NavLink>
+        <NavLink to="/explore" activeClassName={styles.active}>Explore</NavLink>
+        <NavLink to="/favorites" activeClassName={styles.active}>Favorites</NavLink>
+        <NavLink to="/playlists" activeClassName={styles.active}>Playlists</NavLink>
       </div>
 
     </div>

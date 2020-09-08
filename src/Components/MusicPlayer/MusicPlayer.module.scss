@@ -110,37 +110,25 @@ $clr-blue: rgb(46, 144, 236);
 }
 
 
-.buttonContainer {
-  cursor: pointer;
-  display: grid;
-  place-items: center;
-  background-color: $soft-dark-ui;
+// play/pause button
+.ctrlButton {
+  // margin-left: 3px;
   margin-left: 20px;
   margin-right: 20px;
-  border-radius: 50%;
-  transition: all 200ms;
-  padding: 5px;
-
-  box-shadow: 1px 1px 2px black, -1px -1px 2px lighten($soft-dark-ui, 20%);
-  &:hover {
-    & .ctrlButton {
-      transform: scale(1.3);
-      fill: $clr-blue;
-    }
-  }
-
-  &:active {
-    box-shadow: inset 1px 1px 2px black, inset -1px -1px 2px lighten($soft-dark-ui, 20%);
-  }
-}
-
-// play button
-.ctrlButton {
-  margin-left: 3px;
   cursor: pointer;
   fill: white;
-  width: 2em;
+  width: 3rem;
   transition: all 200ms ease-in-out;
+  border-radius: 50%;
+  padding: 5px;
+  padding-left: 9px;
+  border: 2px solid rgb(176, 12, 252);
+
+  &:hover {
+    transform: scale(1.1);
+    fill: #19B4C2;
+    animation: pulse 2s linear infinite;
+  }
 }
 
 .ctrlButtonSmaller {
@@ -152,5 +140,23 @@ $clr-blue: rgb(46, 144, 236);
   &:hover{
     transform: scale(1.1);
     fill: $clr-blue;
+  }
+}
+
+
+@keyframes pulse {
+  0% {
+    // box-shadow: 0 0 0 0 rgba(25, 180, 194, 0.5);
+    box-shadow: 0 0 0 0 rgba(176, 12, 252, 0.2);
+  }
+
+  80% {
+    // box-shadow: 0 0 0px 5px rgba(25, 180, 194, 1);
+    box-shadow: 0 0 0 3px rgba(176, 12, 252, .8);
+  }
+
+  100% {
+    // box-shadow: 0 0 0px 0px rgba(25, 180, 194, 0);
+    box-shadow: 0 0 0 0px rgba(176, 12, 252, 0);
   }
 }

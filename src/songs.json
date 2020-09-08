@@ -1,0 +1,42 @@
+[
+  {
+    "id": 1,
+    "title": "Deep State",
+    "artist": "Vans in Japan",
+    "album": "N/A",
+    "songURL": "/deep_state.mp3",
+    "albumURL": "/"
+  },
+  {
+    "id": 2,
+    "title": "Don't Ya Bite Now",
+    "artist": "Dan Lebowitz",
+    "album": "N/A",
+    "songURL": "/don't_ya_bite_now.mp3",
+    "albumURL": "/"
+  },
+  {
+    "id": 3,
+    "title": "Humidity",
+    "artist": "Silent Partner",
+    "album": "N/A",
+    "songURL": "/humidity.mp3",
+    "albumURL": "/"
+  },
+  {
+    "id": 4,
+    "title": "Rest Easy",
+    "artist": "Vans in Japan",
+    "album": "N/A",
+    "songURL": "/rest_easy.mp3",
+    "albumURL": "/"
+  },
+  {
+    "id": 5,
+    "title": "Savannah Sunshine",
+    "artist": "Dan Henig",
+    "album": "N/A",
+    "songURL": "/savannah_sunshine.mp3",
+    "albumURL": "/"
+  }
+]

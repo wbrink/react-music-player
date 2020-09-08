@@ -16,15 +16,21 @@ const SongProgress = (props) => {
 
   // move scrub and trailing color
   const clickTimeline = (e) => {
-    const rect = timeLineRef.current.getBoundingClientRect();
-    const elementLeft = rect.left;
-    const clientLeft = e.clientX;
+    let leftBound = timeLineRef.current.getBoundingClientRect().left;
+    let rightBound = timeLineRef.current.getBoundingClientRect().right;
+    let width = rightBound - leftBound;
 
-    let difference = clientLeft - elementLeft -5 ; // the 5 accounts for the width of the scrub
 
-    // move the scrub and its trailing color
-    scrubRef.current.style.left = difference + "px";
-    scrubTrailerRef.current.style.width = difference + "px"; 
+    // don't move the scrub past the bounds of the timeline
+    if (e.clientX <= rightBound && e.clientX >= leftBound) {
+      scrubRef.current.style.left = e.clientX - leftBound - 5 + "px"; // the 5 takes into account the size of the circle to place the circle in the middle
+      percentage = (e.clientX - leftBound) / width;
+      scrubTrailerRef.current.style.width = e.clientX - leftBound + "px";
+      console.log(percentage + "%")
+      props.changeTime(percentage);
+    }
+
+    
   }
 
 
