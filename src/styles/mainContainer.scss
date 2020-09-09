@@ -3,7 +3,9 @@
 // bottom player is 75px height
 .container {  
   width: calc(100% - 250px);
-  height: calc(100% - 75px);
+  // height: calc(100% - 75px);
+  height: 100%;
+  padding-bottom: 75px;
   margin-left: auto;
   background-color: rgb(51, 51, 51);
 }

@@ -3,9 +3,17 @@ import styles from "./SongItem.module.scss";
 
 const SongItem = (props) => {
   // const [active, setActive] = useState(false);
+  let classes = ""
+  if (props.active && props.playing) {
+    classes = `${styles.songItem} ${styles.active} ${styles.playing}`;
+  } else if (props.active) {
+    classes = `${styles.songItem} ${styles.active}`
+  } else {
+    classes = styles.songItem
+  }
 
   return (
-    <li className={props.active ? `${styles.songItem} ${styles.active}` : styles.songItem} onClick={props.onClick}>
+    <li className={classes} onClick={props.onClick} onDoubleClick={props.onDoubleClick}>
       {/* play */}
       <div className={styles.playButton}>
         <svg width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">

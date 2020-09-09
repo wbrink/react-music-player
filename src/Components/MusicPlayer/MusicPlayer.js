@@ -8,10 +8,9 @@ import { useSongState } from "../../Contexts/SongContext";
 
 const MusicPlayer = (props) => {
   const audioRef = useRef(null);
+  let audioElement;
+  let songToPlay; // local to this componenet and not a context state
 
-  // Song Context
-  const [library, setLibrary] = useLibraryState();
-  const [song, setSong] = useSongState();
   
   const [play, setPlay] = useState(false); // if false show the play button if true show the pause button
   const [duration, setDuration] = useState(0);
@@ -40,15 +39,26 @@ const MusicPlayer = (props) => {
   }
 
   
+  // part to change
+  if (props.state[0].onLibrary && props.state[0].library.length == 0) {
+    return "";
+  } else if (props.state[0].onLibrary && props.state[0].library.length > 0) {
+    audioElement = <audio src={props.state[0].library[props.state[0].index].songURL} ref={audioRef} onTimeUpdate={(e) => {setSeek(e.target.currentTime)}} onCanPlay={canPlay} ></audio>
+    songToPlay = props.state[0].library[props.state[0].index];
+  } else {
+    if (props.state[0].altPlayList.length == 0) {
+      return "";
+    } else {
+      audioElement = <audio src={props.state[0].altPlayList[props.state[0].index].songURL} ref={audioRef} onTimeUpdate={(e) => {setSeek(e.target.currentTime)}} onCanPlay={canPlay} ></audio>
+    }
+  }
+
+
   return (
     // container that holds play pause and slider
     <div className={styles.container}>
       
-      {/* give bogus path if no library are loaded */}
-      {library === undefined || library.length == 0 
-        ? <audio src="/" ref={audioRef} onTimeUpdate={(e) => {setSeek(e.target.currentTime)}} onCanPlay={canPlay} ></audio> 
-        : <audio src={library[0].songURL} ref={audioRef} onTimeUpdate={(e) => {setSeek(e.target.currentTime)}} onCanPlay={canPlay} ></audio>
-      }
+      {audioElement}
 
       {/* new timeline that uses an input */}
       <SongProgress duration={duration} changeTime={changeTime} audio={audioRef} value={seek}/>
@@ -57,14 +67,14 @@ const MusicPlayer = (props) => {
 
 
       {/* subcontainer that holds other info */}
-      {library == undefined || library.length == 0
+      {props.state[0].library == undefined || props.state[0].library.length == 0
         ? <h1>Hello World</h1>
         : <div className={styles.subContainer}>
             <div className={styles.musicInfo}>
               <img src="./cover.jpg" alt="" id={styles.album}/>
               <div className={styles.songInfo}>
-                <p>Title</p>
-                <p>Artist</p>
+                <p>{songToPlay.title}</p>
+                <p>{songToPlay.artist}</p>
               </div>
             </div>
 

@@ -11,11 +11,22 @@ import {useSongState} from "../../Contexts/SongContext";
 
 const Library = (props) => {
   const [currentSong, setCurrentSong] = useState();
-  
+  const [songPlaying, setSongPlaying] = useState(); // when songItem is double clicked then the text will turn teal or purple
 
-  // handles the library of songs
-  const [library, setLibrary] = useLibraryState();
-  const [song, setSong] = useSongState(); // handles the song that the music player will play
+  const setState = props.setState; // setting the state from 
+  const {library, index, setIndex} = props.state;
+
+  const handleClick = (e,song, songIndex ) => {
+    setCurrentSong(song);
+    console.log(songIndex)
+  }
+
+  const handleDoubleClick = (e, song, songIndex ) => {
+    setCurrentSong(song);
+    setSongPlaying(song);
+    console.log(songIndex)
+  }
+  
 
   if (library === undefined) {
     return (
@@ -34,7 +45,7 @@ const Library = (props) => {
   return (
     <div className={styles.container}>
       <ul>
-        {library.map((s, index) => <SongItem key={s.id} number={index} active={s === currentSong} artist={s.artist} title={s.title} album={s.album} onClick={() => setCurrentSong(s)}/> )}
+        {library.map((s, songIndex) => <SongItem key={s.id} number={index} playing={s=== songPlaying} active={s === currentSong} artist={s.artist} title={s.title} album={s.album} onClick={(e) => handleClick(e, s, songIndex)} onDoubleClick={(e) => handleDoubleClick(e, s, songIndex)}/> )}
       </ul>
     </div>
   );
