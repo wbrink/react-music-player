@@ -24,7 +24,8 @@ function App() {
     library: [],
     altPlaylist: [],
     onLibrary: true,
-    index: 0
+    index: 0,
+    play: false
   })
 
 
@@ -63,7 +64,7 @@ function App() {
               <Route path="/explore"><Explore /></Route>
             </Switch>
 
-            <MusicPlayer nextClick={nextClick} prevClick={prevClick} key={state} state={[state,setState]}/>
+            <MusicPlayer nextClick={nextClick} prevClick={prevClick} key={state} state={state} setState={setState}/>
           
           </div>
         {/* </SongProvider> */}

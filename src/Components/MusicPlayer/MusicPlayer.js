@@ -18,12 +18,17 @@ const MusicPlayer = (props) => {
 
   // changes the button to play if pause and vice versa
   const PlayPauseClick = () => {
+    // if song is paused or not playing
     if (!play) {
       // let playPromise = audioRef.current.play();
       audioRef.current.play();
       console.log(audioRef.current.src)
       setPlay(true); 
     } else {
+      // if the song is playing change the global state of play to false
+      props.setState((prevState) => {
+        return {...prevState, play: false}
+      })
       audioRef.current.pause();
       setPlay(false);
     }
@@ -38,27 +43,45 @@ const MusicPlayer = (props) => {
     setDuration(audioRef.current.duration);
   }
 
+  // runs after first render and every time props.state.play runs
+  useEffect(() => {
+    if (props.state.play == true) {
+      setPlay(true);
+      console.log("is this working")
+    }
+  }, [props.state.play])
+
+
+  // runs after play is changed
+  useEffect(() => {
+    if (play == true) {
+      audioRef.current.play();
+    }
+  }, [play])
+
+
+
   
   // part to change
-  if (props.state[0].onLibrary && props.state[0].library.length == 0) {
+  if (props.state.onLibrary && props.state.library.length == 0) {
     return "";
-  } else if (props.state[0].onLibrary && props.state[0].library.length > 0) {
-    audioElement = <audio src={props.state[0].library[props.state[0].index].songURL} ref={audioRef} onTimeUpdate={(e) => {setSeek(e.target.currentTime)}} onCanPlay={canPlay} ></audio>
-    songToPlay = props.state[0].library[props.state[0].index];
+  } else if (props.state.onLibrary && props.state.library.length > 0) {
+    audioElement = <audio src={props.state.library[props.state.index].songURL} ref={audioRef} onTimeUpdate={(e) => {setSeek(e.target.currentTime)}} onCanPlay={canPlay} ></audio>
+    songToPlay = props.state.library[props.state.index];
   } else {
-    if (props.state[0].altPlayList.length == 0) {
+    if (props.state.altPlayList.length == 0) {
       return "";
     } else {
-      audioElement = <audio src={props.state[0].altPlayList[props.state[0].index].songURL} ref={audioRef} onTimeUpdate={(e) => {setSeek(e.target.currentTime)}} onCanPlay={canPlay} ></audio>
+      audioElement = <audio src={props.state.altPlayList[props.state.index].songURL} ref={audioRef} onTimeUpdate={(e) => {setSeek(e.target.currentTime)}} onCanPlay={canPlay} ></audio>
     }
   }
-
 
   return (
     // container that holds play pause and slider
     <div className={styles.container}>
       
       {audioElement}
+      {/* <audio src={props.state.library[0].songURL} ref={audioRef} onTimeUpdate={(e) => {setSeek(e.target.currentTime)}} onCanPlay={canPlay} ></audio> */}
 
       {/* new timeline that uses an input */}
       <SongProgress duration={duration} changeTime={changeTime} audio={audioRef} value={seek}/>
@@ -67,7 +90,7 @@ const MusicPlayer = (props) => {
 
 
       {/* subcontainer that holds other info */}
-      {props.state[0].library == undefined || props.state[0].library.length == 0
+      {props.state.library == undefined || props.state.library.length == 0
         ? <h1>Hello World</h1>
         : <div className={styles.subContainer}>
             <div className={styles.musicInfo}>
@@ -87,6 +110,7 @@ const MusicPlayer = (props) => {
                   <path d="M8.404 8.697l6.363 3.692c.54.313 1.233-.066 1.233-.697V4.308c0-.63-.693-1.01-1.233-.696L8.404 7.304a.802.802 0 0 0 0 1.393z"/>
                 </svg>
                 
+
                   
                 {/* play button */}
                 {!play && 

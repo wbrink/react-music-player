@@ -24,7 +24,9 @@ const Library = (props) => {
   const handleDoubleClick = (e, song, songIndex ) => {
     setCurrentSong(song);
     setSongPlaying(song);
-    console.log(songIndex)
+    setState((prevState) => {
+      return {...prevState, index: songIndex, play: true};
+    })
   }
   
 
