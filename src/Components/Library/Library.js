@@ -14,7 +14,7 @@ const Library = (props) => {
   const [songPlaying, setSongPlaying] = useState(); // when songItem is double clicked then the text will turn teal or purple
 
   const setState = props.setState; // setting the state from 
-  const {library, index, setIndex} = props.state;
+  const {library, index} = props.state;
 
   const handleClick = (e,song, songIndex ) => {
     setCurrentSong(song);
@@ -22,6 +22,7 @@ const Library = (props) => {
   }
 
   const handleDoubleClick = (e, song, songIndex ) => {
+
     setCurrentSong(song);
     setSongPlaying(song);
     setState((prevState) => {
@@ -47,7 +48,7 @@ const Library = (props) => {
   return (
     <div className={styles.container}>
       <ul>
-        {library.map((s, songIndex) => <SongItem key={s.id} number={index} playing={s=== songPlaying} active={s === currentSong} artist={s.artist} title={s.title} album={s.album} onClick={(e) => handleClick(e, s, songIndex)} onDoubleClick={(e) => handleDoubleClick(e, s, songIndex)}/> )}
+        {library.map((s, songIndex) => <SongItem key={s.id} current={index == songIndex} playing={s=== songPlaying} active={s === currentSong} artist={s.artist} title={s.title} album={s.album} onClick={(e) => handleClick(e, s, songIndex)} onDoubleClick={(e) => handleDoubleClick(e, s, songIndex)}/> )}
       </ul>
     </div>
   );

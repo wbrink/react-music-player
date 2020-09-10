@@ -43,26 +43,48 @@ const MusicPlayer = (props) => {
     setDuration(audioRef.current.duration);
   }
 
+  // press back on the music player
+  const backClick = () => {
+    if (audioRef.current.currentTime > 2) {
+      audioRef.current.currentTime = 0;
+    } else {
+      if (props.state.index == 0) {
+        audioRef.current.currentTime = 0;
+      } else {
+        props.setState((prevState) => {
+          return {...prevState, index: prevState.index - 1}
+        })
+      }
+    }
+  }
+
+  const fwdClick = () => {
+    if (props.state.onLibrary) {
+      if (props.state.index < props.state.library.length - 1) {
+        props.setState((prevState) => {
+          return {...prevState, index: prevState.index + 1}
+        })
+      } else {
+        props.setState((prevState) => {
+          return {
+            ...prevState, 
+            index: 0
+          }
+        })
+      }
+    }
+  }
+
   // runs after first render and every time props.state.play runs
   useEffect(() => {
     if (props.state.play == true) {
       setPlay(true);
-      console.log("is this working")
-    }
-  }, [props.state.play])
-
-
-  // runs after play is changed
-  useEffect(() => {
-    if (play == true) {
       audioRef.current.play();
     }
-  }, [play])
-
-
+  }, [props.state.play, props.state.index])
 
   
-  // part to change
+  // sets the audio element with the correct source
   if (props.state.onLibrary && props.state.library.length == 0) {
     return "";
   } else if (props.state.onLibrary && props.state.library.length > 0) {
@@ -104,7 +126,7 @@ const MusicPlayer = (props) => {
             <div className={styles.controls}>            
               <div className={styles.controlButtons}>
                 {/* skip backward */}
-                <svg className={styles.ctrlButtonSmaller} viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                <svg className={styles.ctrlButtonSmaller} onClick={backClick} viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                   <path fillRule="evenodd" d="M.5 3.5A.5.5 0 0 0 0 4v8a.5.5 0 0 0 1 0V4a.5.5 0 0 0-.5-.5z"/>
                   <path d="M.904 8.697l6.363 3.692c.54.313 1.233-.066 1.233-.697V4.308c0-.63-.692-1.01-1.233-.696L.904 7.304a.802.802 0 0 0 0 1.393z"/>
                   <path d="M8.404 8.697l6.363 3.692c.54.313 1.233-.066 1.233-.697V4.308c0-.63-.693-1.01-1.233-.696L8.404 7.304a.802.802 0 0 0 0 1.393z"/>
@@ -127,7 +149,7 @@ const MusicPlayer = (props) => {
                 }
                 
                 {/* skip forward */}
-                <svg className={styles.ctrlButtonSmaller} viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                <svg className={styles.ctrlButtonSmaller} onClick={fwdClick} viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                   <path fillRule="evenodd" d="M15.5 3.5a.5.5 0 0 1 .5.5v8a.5.5 0 0 1-1 0V4a.5.5 0 0 1 .5-.5z"/>
                   <path d="M7.596 8.697l-6.363 3.692C.693 12.702 0 12.322 0 11.692V4.308c0-.63.693-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393z"/>
                   <path d="M15.096 8.697l-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.693-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393z"/>

@@ -29,14 +29,6 @@ function App() {
   })
 
 
-  const nextClick = () => {
-    // setIndex((prevState) => prevState+1);
-  }
-
-  const prevClick = () => {
-    // setIndex((prevState) => prevState-1);
-  }
-
   // get the users library of songs
   useEffect(() => {
     setState((prevState) => {
@@ -64,7 +56,7 @@ function App() {
               <Route path="/explore"><Explore /></Route>
             </Switch>
 
-            <MusicPlayer nextClick={nextClick} prevClick={prevClick} key={state} state={state} setState={setState}/>
+            <MusicPlayer key={state} state={state} setState={setState}/>
           
           </div>
         {/* </SongProvider> */}

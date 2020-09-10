@@ -3,13 +3,14 @@ import styles from "./SongItem.module.scss";
 
 const SongItem = (props) => {
   // const [active, setActive] = useState(false);
-  let classes = ""
-  if (props.active && props.playing) {
-    classes = `${styles.songItem} ${styles.active} ${styles.playing}`;
-  } else if (props.active) {
-    classes = `${styles.songItem} ${styles.active}`
-  } else {
-    classes = styles.songItem
+  let classes = `${styles.songItem}`;
+
+  if (props.active) {
+    classes += ` ${styles.active}`;
+  }
+
+  if (props.current) {
+    classes += ` ${styles.playing}`
   }
 
   return (
