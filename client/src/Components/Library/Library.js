@@ -46,7 +46,8 @@ const Library = (props) => {
   }
 
   return (
-    <div className={styles.container}>
+    <div className={styles.container} style={{padding: "1px"}}>
+      <h1 style={{marginLeft: "23px", marginBottom: "20px", marginTop: "20px", padding: "1px"}}>Library</h1>
       <ul>
         {library.map((s, songIndex) => <SongItem key={s.id} current={index == songIndex} playing={s=== songPlaying} active={s === currentSong} artist={s.artist} title={s.title} album={s.album} onClick={(e) => handleClick(e, s, songIndex)} onDoubleClick={(e) => handleDoubleClick(e, s, songIndex)}/> )}
       </ul>

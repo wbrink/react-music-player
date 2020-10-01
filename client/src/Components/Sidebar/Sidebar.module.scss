@@ -108,6 +108,7 @@
 
 
   a {
+    position: relative;
     text-decoration: none;
     color: white;
     width: 100%;
@@ -120,13 +121,52 @@
       margin-bottom: 10px;
     }
 
-    &:hover {
-      color: silver;
-    }
+    // &:hover {
+    //   color: silver;
+    // }
 
     &.active {
       background-color: rgb(58, 58, 58);
     }
   }
+
+
+  .playlistContainer {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+
+
+    svg:hover {
+      fill: rgb(13, 255, 255);
+    }
+
+    
+  }
+
+  .playlistForm {
+    position: absolute;
+    top: 100%;
+    left: 100%;
+    transform: translate(-100%, 0%);
+    height: 100px;
+    width: 100%;
+    background-color: rgb(78, 78, 78);
+    padding: 10px;
+    opacity: 0;
+    transition: opacity 200ms ease;
+
+    input {
+      margin-top: 5px;
+      margin-bottom: 5px;
+    }
+
+    &.open {
+      opacity: 1;
+    }
+  }
 }
+
 

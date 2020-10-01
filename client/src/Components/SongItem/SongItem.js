@@ -14,7 +14,7 @@ const SongItem = (props) => {
   }
 
   return (
-    <li className={classes} onClick={props.onClick} onDoubleClick={props.onDoubleClick}>
+    <li className={classes} onClick={props.onClick} onDoubleClick={props.onDoubleClick} draggable={true} >
       {/* play */}
       <div className={styles.playButton}>
         <svg width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -23,7 +23,6 @@ const SongItem = (props) => {
       </div>
 
       <div className={styles.song}>{props.title}</div>
-
       <div className={styles.artist}>{props.artist}</div>
       <div className={styles.album}>{props.album}</div>
 

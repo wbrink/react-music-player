@@ -16,13 +16,17 @@ import data from "./songs.json";
 
 
 import {BrowserRouter as Router, Switch, Route, Link} from "react-router-dom";
+import Playlists from './Components/Playlists/Playlists';
 
 
 function App() {
+  // this will be a Map for the playlists
+  // let playlists = new Map();
   
   const [state, setState] = useState({
     library: [],
-    altPlaylist: [],
+    altPlaylist: [], // this is to load the songs in the currently active playlist
+    playlists: [], // this is to show all the playlists and their songs
     onLibrary: true,
     index: 0,
     play: false
@@ -49,11 +53,13 @@ function App() {
         {/* <SongProvider> */}
           <div style={{height: "100%", backgroundColor: "red", width: "100%"}}>
             {/* <Navbar /> */}
-            <Sidebar />
+            <Sidebar state={state} setState={setState}/>
 
             <Switch>
               <Route path="/library"><Library key={state} state={state} setState={setState} /></Route>
               <Route path="/explore"><Explore /></Route>
+
+              <Route path="/playlists"><Playlists key={state} state={state} setState={setState}/></Route>
             </Switch>
 
             <MusicPlayer key={state} state={state} setState={setState}/>
