@@ -12,8 +12,9 @@ const mongooseConnection = mongoose.connection;
 // this runs once when the 
 mongooseConnection.once("open", () => {
   console.log("connected");
-  db.User.create({username: "dog"}, (err, doc) => {
+  db.User.create({username: "dog", password: "helloworld"}, (err, doc) => {
     console.log(doc);
+    mongooseConnection.close();
   })
 })
 
