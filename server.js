@@ -16,6 +16,28 @@ const mongooseConnection = mongoose.connection;
 
 // parses incoming requests with JSON payloads
 app.use(express.json());
+// parses urlencoded data (form data)
+app.use(express.urlencoded({extended: false}));
+
+
+
+
+
+// setup express session
+app.use(session({
+  resave: false, // our store implements the touch method so we can resave = false
+  saveUninitialized: false,
+  secret: process.env.SESSION_SECRET,
+  store: new MongoStore({mongooseConnection: mongooseConnection}),
+  cookie: {
+    maxAge: Number(process.env.SESSION_LIFETIME),
+    sameSite: true,
+    // secure: true  // only if we are in production and can enable https
+  }
+}))
+
+
+const authMiddleware = require('./middleware/authMiddleware');
 
 
 // api routes (we can use the model before the it is actually connected because)
@@ -23,19 +45,33 @@ app.use(express.json());
 // it will simply hang
 app.use(require("./routes/api_routes"));
 
+app.get("/", authMiddleware, (req,res) => {
+  console.log("session", req.session);
+  console.log("req.user", req.user);
+  // req.session.viewCount = 5;
+  res.send(req.session);
+})
 
-// setup express session
-app.use(session({
-  resave: false, // our store implements the touch method so we can resave = false
-  saveUninitialized: false,
-  sercret: process.env.SESSION_SECRET,
-  store: new MongoStore({mongooseConnection: mongooseConnection}),
-  cookie: {
-    maxAge: process.env.SESSION_LIFETIME,
-    sameSite: true,
-    // secure: true  // only if we are in production and can enable https
-  }
-}))
+
+app.route("/login")
+  .get((req,res) => {
+    res.send(
+      `
+      <form action="/login" method="post">
+        <input type="text" name="username" value="username">
+        <input type="password" name="password">
+        <input type="submit" value="Login">
+      </form>
+      `
+    )
+  })
+  .post((req,res) => {
+    const {username, password} = req.body;
+    console.log(username, password);
+    
+    res.redirect("/");
+  })
+
 
 
 // run the app when connected to the database
