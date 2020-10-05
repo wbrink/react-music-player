@@ -26,7 +26,7 @@ app.use(express.urlencoded({extended: false}));
 // setup express session
 app.use(session({
   resave: false, // our store implements the touch method so we can resave = false
-  saveUninitialized: false,
+  saveUninitialized: false, // session will not be saved to the store as long as it is new but not modified (if it  gets modified then it will be saved)
   secret: process.env.SESSION_SECRET,
   store: new MongoStore({mongooseConnection: mongooseConnection}),
   cookie: {
@@ -45,9 +45,14 @@ const authMiddleware = require('./middleware/authMiddleware');
 // it will simply hang
 app.use(require("./routes/api_routes"));
 
-app.get("/", authMiddleware, (req,res) => {
+app.get("/", (req,res) => {
   console.log("session", req.session);
   console.log("req.user", req.user);
+  if (!req.session.viewCount) {
+    req.session.viewCount = 1
+  } else {
+    req.session.viewCount++;
+  }
   // req.session.viewCount = 5;
   res.send(req.session);
 })
@@ -68,7 +73,7 @@ app.route("/login")
   .post((req,res) => {
     const {username, password} = req.body;
     console.log(username, password);
-    
+
     res.redirect("/");
   })
 
