@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import styles from "./Sidebar.module.scss";
 import image from "./music.svg";
-import {NavLink} from "react-router-dom";
+import {NavLink, useLocation} from "react-router-dom";
 
 const Sidebar = (props) => {
 
   const [search, setSearch] = useState("");
   const [playlistName, setPlaylistName] = useState("");
-
+  let location = useLocation();
   const [showDialog, setShowDialog] = useState(false);
 
   // event that opens the create playlist form
@@ -36,7 +36,11 @@ const Sidebar = (props) => {
     setShowDialog(false);
   }
 
-  
+  // if we are in login don't show the navbar 
+  if (location.pathname == "/login" || location.pathname == "/signup") {
+    return null
+  }
+
 
   return (
     <div className={styles.sidebar}>

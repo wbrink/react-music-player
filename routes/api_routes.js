@@ -15,6 +15,12 @@ router.get("/api/isAuthenticated", (req,res) => {
   }
 })
 
+router.post("/api/login", (req,res) => {
+  const {username, password} = req.body;
+
+
+})
+
 
 router.get("/api/logout", (req,res) => {
   // hit this route we want to remove the session and unset the req.session property

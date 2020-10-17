@@ -1,0 +1,62 @@
+.logoContainer {
+  display: flex;
+  align-items: center;
+  margin-bottom: 40px;
+
+  .logoName {
+    font-size: 30px;
+    color: white;
+    background-size: 100%;
+    background-image: linear-gradient(to left, #bd35fc, #0abfbc);
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-left: 10px;
+
+  }
+  
+  .logo {
+    background: linear-gradient(to right, #50c9c3, #96deda); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    height: 50px;
+    width: 50px;
+    display: grid;
+    place-content: center;
+    border-radius: 50%;
+    border: 3px solid rgb(231, 231, 231);
+  
+    img {
+      width: 25px;
+    }
+  }
+}
+
+.choice {
+  display: flex;
+
+  
+  .link {
+    padding: 5px;
+    background-color: rgb(47, 49, 49);
+    border-radius: 20px;
+    width: 100px;
+    text-align: center;
+    color: rgb(221, 221, 221);
+    text-decoration: none;
+
+    &:first-child {
+      margin-right: 30px;
+    }
+
+    &.active {
+      background-color: rgb(18, 236, 236);
+      color: rgb(22, 22, 22);
+    }
+  }
+}
+
+form {
+  display: flex; 
+  flex-direction: column;
+  margin-top: 30px;
+  color: white;
+  width: 70%;
+}

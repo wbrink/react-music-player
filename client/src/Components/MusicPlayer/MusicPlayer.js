@@ -5,12 +5,13 @@ import SongProgress from "./SongProgess";
 
 import {useLibraryState} from "../../Contexts/LibraryContext";
 import { useSongState } from "../../Contexts/SongContext";
+import {useLocation} from "react-router-dom";
 
 const MusicPlayer = (props) => {
   const audioRef = useRef(null);
   let audioElement;
   let songToPlay; // local to this componenet and not a context state
-
+  let location = useLocation();
   
   const [play, setPlay] = useState(false); // if false show the play button if true show the pause button
   const [duration, setDuration] = useState(0);
@@ -97,6 +98,13 @@ const MusicPlayer = (props) => {
       audioElement = <audio src={props.state.altPlayList[props.state.index].songURL} ref={audioRef} onTimeUpdate={(e) => {setSeek(e.target.currentTime)}} onCanPlay={canPlay} ></audio>
     }
   }
+
+  // if we are in login don't show the navbar 
+  if (location.pathname == "/login" || location.pathname == "/signup") {
+    return null
+  }
+
+
 
   return (
     // container that holds play pause and slider
