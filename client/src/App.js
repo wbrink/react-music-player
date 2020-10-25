@@ -62,6 +62,8 @@ function App() {
         <Switch>
           {/* login */}
           {/* this will need to be restricted so that when you are logged in you cannot visit this route */}
+          
+
           <RestrictedRoute path="/login">
             <Authenticate />
           </RestrictedRoute>
@@ -83,6 +85,10 @@ function App() {
           {/* playlists */}
           <PrivateRoute path="/playlists">
             <Playlists key={state} state={state} setState={setState}/>
+          </PrivateRoute>
+
+          <PrivateRoute path="/">
+            {() => ""}
           </PrivateRoute>
   
         </Switch>

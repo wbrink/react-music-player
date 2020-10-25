@@ -1,13 +1,39 @@
-import React, {useState} from "react"
+import { PromiseProvider } from "mongoose";
+import React, {useState} from "react";
+import {useHistory} from "react-router-dom";
 
-const Login = () => {
-  const [username, setUsername] = useState("aaaa");
-  const [password, setPassword] = useState("aa");
-  const [usernameFeedback, setUsernameFeedback] = useState("Please Enter valid Email Address");
-  const [passwordFeedback, setPasswordFeedback] = useState("Must be 6 characters or longer");
+const Login = (props) => {
+  let history = useHistory();
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [usernameFeedback, setUsernameFeedback] = useState("");
+  const [passwordFeedback, setPasswordFeedback] = useState("");
+
+  const handleSubmit = (e) => {
+    e.preventDefault(); // don't want form to submit
+    let data = {username: username, password: password};
+
+    fetch("/api/login", {
+      method: "POST",
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(data)
+    })
+    .then(res => res.json())
+    .then(data => {
+      if (data?.authenticated == false) {
+        props.setFeedback("Invalid Login")
+        // clear the inputs
+        setUsername("");
+        setPassword("");
+      } else {
+        console.log("login successful");
+        history.push("/");
+      }
+    })
+  }
 
   return (
-    <div>
+    <form action="" onSubmit={handleSubmit}>
       <div className="form-group">
         <label htmlFor="username">Email or Username</label>
         <input type="text" name="username" id="username" value={username} onChange={e => setUsername(e.target.value)} maxLength="50"/>
@@ -21,7 +47,7 @@ const Login = () => {
       </div>
 
       <input type="submit" id="formSubmitButton" value="Login"/>
-    </div>
+    </form>
   )
     
     

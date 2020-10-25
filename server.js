@@ -36,8 +36,8 @@ app.use(session({
   }
 }))
 
-
-const authMiddleware = require('./middleware/authMiddleware');
+// middleware to attach user to req.user if authenticated
+app.use(require("./middleware/loadUser"));
 
 
 // api routes (we can use the model before the it is actually connected because)

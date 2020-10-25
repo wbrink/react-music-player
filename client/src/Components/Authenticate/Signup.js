@@ -12,20 +12,24 @@ const Signup = (props) => {
 
   console.log(props);
 
-  // callback function to handle form submit
-  const formSubmit = () => {
-    // validate the form
+  const handleSubmit = (e) => {
+    e.preventDefault(); // don't want form to submit
+    console.log("form submitted");
+
     const bool = validateForm();
 
-    // then do fetch to backend to signup the user
+    if (bool) {
+      
+    }
   }
+
 
   const validateForm = () => {
     return true;
   }
 
   return (
-    <div>
+    <form onSubmit={handleSubmit}>
       <div className="form-group">
         <label htmlFor="email">Email</label>
         <input type="email" name="email" id="email" value={email} onChange={e=>setEmail(e.target.value)}/>
@@ -50,8 +54,8 @@ const Signup = (props) => {
         <span className="feedback">{confirmPasswordFeedback}</span>
       </div>
 
-      <input type="submit" id="formSubmitButton" value="Signup" onClick={formSubmit}/>
-    </div>
+      <input type="submit" id="formSubmitButton" value="Signup" />
+    </form>
   )
 }
 
