@@ -97,7 +97,7 @@ connection.connect(function(err) {
 });
 
 
-connection.query( 
+connection.query("SQL GOES HERE", 
   function(error, results, fields) {
 
 });
