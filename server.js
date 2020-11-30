@@ -1,18 +1,28 @@
 require('dotenv').config();
 const express = require("express");
 const session = require('express-session');
-const MongoStore = require('connect-mongo')(session);
+const mysql = require("mysql");
+const MySQLStore = require("express-mysql-session")(session);
+
+let options = {
+  connectionLimit: 10,
+  host: process.env.DB_HOST,
+  port: process.env.DB_PORT,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_DATABASE
+}
+
+const pool = mysql.createPool(options);
+const sessionStore = new MySQLStore({}, pool);
+
+// const MongoStore = require('connect-mongo')(session);
 
 
 const app = express();
 const PORT = process.env.PORT;
 
-const mongoose = require('mongoose');
-mongoose.connect("mongodb://localhost/music_player", {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
-})
-const mongooseConnection = mongoose.connection;
+
 
 // parses incoming requests with JSON payloads
 app.use(express.json());
@@ -79,11 +89,6 @@ app.route("/login")
 
 
 
-// run the app when connected to the database
-mongooseConnection.once("open", () => {
-  app.listen(PORT, () => console.log("Server Listening on port", PORT));
-})
+app.listen(PORT, () => console.log("Server Listening on port", PORT));
 
-// don't run application if there is an error connecting to the db
-mongooseConnection.on("error", console.error.bind(console, "connection error"));
 

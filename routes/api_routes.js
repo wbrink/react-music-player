@@ -1,5 +1,4 @@
 const express = require('express');
-const db = require("../model")
 const bcrypt = require("bcryptjs");
 const isAuthenticated = require('../middleware/isAuthenticated');
 
@@ -23,23 +22,24 @@ router.post("/api/login", (req,res) => {
   const {username, password} = req.body;
   
   // // query the user and see if password matches
-  db.User.findOne({username: username} , (err, user) => {
-    if (err) throw err;
+  // db.User.findOne({username: username} , (err, user) => {
+  //   if (err) throw err;
     
-    if (user) {
-      const comparePassword = bcrypt.compareSync(password, user.password);
-      if (comparePassword) {
-        // edit the session so that the session is saved when the req ends and a cookie is given to the user
-        req.session.userID = user._id;
-        res.json(user);
-      } else {
-        res.json({authenticated: false});
-      }
-    } else {
-      // then no user exists with that username
-      res.json({authenticated: false})
-    }
-  })
+  //   if (user) {
+  //     const comparePassword = bcrypt.compareSync(password, user.password);
+  //     if (comparePassword) {
+  //       // edit the session so that the session is saved when the req ends and a cookie is given to the user
+  //       req.session.userID = user._id;
+  //       res.json(user);
+  //     } else {
+  //       res.json({authenticated: false});
+  //     }
+  //   } else {
+  //     // then no user exists with that username
+  //     res.json({authenticated: false})
+  //   }
+  // })
+  res.json({authenticated: false})
 })
 
 
