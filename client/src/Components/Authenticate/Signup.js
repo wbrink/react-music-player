@@ -1,25 +1,52 @@
 import React, {useState} from "react";
 
 const Signup = (props) => {
-  const [email, setEmail] = useState("b@email.com");
-  const [emailFeedback, setEmailFeedback] = useState("Must be valid email");
-  const [username, setUsername] = useState("billy");
-  const [usernameFeedback, setUsernameFeedback] = useState("That's a weird username");
-  const [password, setPassword] = useState("abc");
-  const [passwordFeedback, setPasswordFeedback] = useState("Password Must be Longer than 6 Characters");
-  const [confirmPassword, setConfirmPassword] = useState("abb");
-  const [confirmPasswordFeedback, setConfirmPasswordFeedback] = useState("Password must match");
+  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [feedback, setFeedback] = useState({
+    emailFeedback: "",
+    usernameFeedback: "",
+    passwordFeedback: "",
+    confirmPasswordFeedback: "",
+    message: ""
+  })
 
-  console.log(props);
+  // 
+  const clearFeedback = () => {
+    setFeedback({emailFeedback: "", usernameFeedback: "", passwordFeedback: "", confirmPasswordFeedback: "", message: ""})
+  }
 
+  // handle submit of registration form
   const handleSubmit = (e) => {
+    clearFeedback();
     e.preventDefault(); // don't want form to submit
-    console.log("form submitted");
 
-    const bool = validateForm();
-
+    const bool = validateForm();  // needs to be implemented
     if (bool) {
-      
+      // call the api to create user
+      fetch("/api/user/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({username, email, password})
+      })
+      .then(res => res.json())
+      .then(data => {
+        // console.log(data);
+        if (data?.error === 'user already exists') {
+          setFeedback({...feedback, message: "User already exists"});
+        } else if (data?.success === "user created sucessfully") {
+          console.log("user created successfully");
+        } else {
+          console.log(data);
+        }
+      })
+      .catch(error => {
+        throw error;
+      })
     }
   }
 
@@ -33,27 +60,28 @@ const Signup = (props) => {
       <div className="form-group">
         <label htmlFor="email">Email</label>
         <input type="email" name="email" id="email" value={email} onChange={e=>setEmail(e.target.value)}/>
-        <span className="feedback">{emailFeedback}</span>
+        <span className="feedback">{feedback.emailFeedback}</span>
       </div>
 
       <div className="form-group">
         <label htmlFor="username">Username</label>
         <input type="text" name="username" id="username" value={username} onChange={e=>setUsername(e.target.value)}/>
-        <span className="feedback">{usernameFeedback}</span>
+        <span className="feedback">{feedback.usernameFeedback}</span>
       </div>
 
       <div className="form-group">
         <label htmlFor="password">Password</label>
         <input type="password" name="password" id="password" value={password} onChange={e=>setPassword(e.target.value)}/>
-        <span className="feedback">{passwordFeedback}</span>
+        <span className="feedback">{feedback.passwordFeedback}</span>
       </div>
 
       <div className="form-group">
         <label htmlFor="confirmPassword">Confirm Password</label>
         <input type="password" name="confirmPassword" id="confirmPassword" value={confirmPassword} onChange={e=>setConfirmPassword(e.target.value)}/>
-        <span className="feedback">{confirmPasswordFeedback}</span>
+        <span className="feedback">{feedback.confirmPasswordFeedback}</span>
       </div>
 
+      <div className="feedback">{feedback.message}</div>
       <input type="submit" id="formSubmitButton" value="Signup" />
     </form>
   )

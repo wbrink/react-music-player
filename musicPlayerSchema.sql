@@ -8,14 +8,14 @@ use music_player;
 CREATE TABLE artists
 (
 	artist_id INT PRIMARY KEY AUTO_INCREMENT,
-	artist_name VARCHAR NOT NULL
+	artist_name VARCHAR(255) NOT NULL
 );
 
 -- ALBUMS 
 CREATE TABLE albums 
 (
 	album_id INT PRIMARY KEY AUTO_INCREMENT,
-    album_name VARCHAR NOT NULL,
+    album_name VARCHAR(255) NOT NULL,
     genre_id INT,
     artist_id INT,
     release_date DATE NOT NULL
@@ -26,7 +26,7 @@ CREATE TABLE albums
 CREATE TABLE tracks
 (
 	track_id INT PRIMARY KEY AUTO_INCREMENT,
-    track_name VARCHAR NOT NULL,
+    track_name VARCHAR(255) NOT NULL,
     duration INT NOT NULL, -- in seconds
     track_number INT NOT NULL,
     album_id INT,
@@ -39,7 +39,7 @@ CREATE TABLE tracks
 CREATE TABLE genres
 (
 	genre_id INT PRIMARY KEY AUTO_INCREMENT,
-    genre_name VARCHAR NOT NULL
+    genre_name VARCHAR(255) NOT NULL
 );
 
 -- Setting Up Foreign Keys for Music
@@ -68,16 +68,18 @@ ADD FOREIGN KEY (genre_id) REFERENCES genres(genre_id);
 CREATE TABLE users 
 (
 	user_id INT PRIMARY KEY AUTO_INCREMENT,
-    username VARCHAR NOT NULL UNIQUE,
-    email VARCHAR NOT NULL UNIQUE,
-    user_password VARCHAR NOT NULL,
+    username VARCHAR(255) NOT NULL UNIQUE,
+    email VARCHAR(255) NOT NULL UNIQUE,
+    user_password VARCHAR(255) NOT NULL,
     joined TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE playlists 
 (
 	playlist_id INT PRIMARY KEY AUTO_INCREMENT,
-    playlist_name VARCHAR NOT NULL    
+    playlist_name VARCHAR(255) NOT NULL,
+    user_id INT,
+    created DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE playlist_tracks
@@ -86,6 +88,9 @@ CREATE TABLE playlist_tracks
     playlist_id INT,
     date_added TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+ALTER TABLE playlists
+ADD FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE;
 
 ALTER TABLE playlist_tracks
 ADD FOREIGN KEY (playlist_id) REFERENCES playlists(playlist_id) ON DELETE CASCADE;

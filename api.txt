@@ -1,0 +1,13 @@
+
+POST: /api/user/create
+
+POST: /api/user/login
+
+# delete user
+DELETE: /api/user/delete
+
+# if user is logged in
+GET: /api/user/logged-in
+
+
+
