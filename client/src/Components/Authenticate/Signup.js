@@ -1,6 +1,11 @@
 import React, {useState} from "react";
+import {useHistory} from "react-router-dom";
+import { useUser } from "../../utils/UserContext";
 
 const Signup = (props) => {
+  let history = useHistory();
+  let [user, setUser] = useUser(); // user context
+
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -38,10 +43,16 @@ const Signup = (props) => {
         // console.log(data);
         if (data?.error === 'user already exists') {
           setFeedback({...feedback, message: "User already exists"});
-        } else if (data?.success === "user created sucessfully") {
-          console.log("user created successfully");
         } else {
           console.log(data);
+          setUser({
+            user_id: data.user_id,
+            username: data.username,
+            email: data.email,
+            joined: data.joined
+          })
+          console.log("registration sucessful");
+          history.push("/");
         }
       })
       .catch(error => {

@@ -4,12 +4,12 @@ const pool = require("../db"); // returns pool of mysql connections
 // in our case in api_routes we save the userID to the session store and use this middleware to load the user into the req object if the user is still logged in
 const loadUser = (req,res,next) => {
   if (req.session.userID) {
-    let sql = "SELECT * FROM users WHERE id = ?";
+    let sql = "SELECT * FROM users WHERE user_id = ?";
     pool.query(sql, req.session.userID, (error, results) => {
-      if (err) throw err;
+      if (error) throw error;
       if (results[0]) {
         let user = results[0];
-        req.user = {username: user.username, id: user.id, email: user.email, joined: user.joined};
+        req.user = {username: user.username, user_id: user.user_id, email: user.email, joined: user.joined};
         next();
       } else {
         next();

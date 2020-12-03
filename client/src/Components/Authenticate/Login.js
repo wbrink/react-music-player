@@ -1,7 +1,10 @@
 import React, {useState} from "react";
 import {useHistory} from "react-router-dom";
+import { useUser } from "../../utils/UserContext";
 
 const Login = (props) => {
+  const [user,setUser] = useUser(); // user context 
+
   let history = useHistory();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -12,19 +15,25 @@ const Login = (props) => {
     e.preventDefault(); // don't want form to submit
     let data = {username: username, password: password};
 
-    fetch("/api/login", {
+    fetch("/api/user/login", {
       method: "POST",
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify(data)
     })
     .then(res => res.json())
     .then(data => {
-      if (data?.authenticated == false) {
+      if (data?.authenticated === false) {
         props.setFeedback("Invalid Login")
         // clear the inputs
         setUsername("");
         setPassword("");
       } else {
+        setUser({
+          user_id: data.user_id,
+          username: data.username,
+          email: data.email,
+          joined: data.joined
+        })
         console.log("login successful");
         history.push("/");
       }

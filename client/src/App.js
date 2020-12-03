@@ -21,6 +21,7 @@ import Playlists from './Components/Playlists/Playlists';
 import { LoginProvider } from './utils/LoginContext';
 import PrivateRoute from './Components/PrivateRoute';
 import RestrictedRoute from "./Components/RestrictedRoute";
+import { UserProvider } from './utils/UserContext';
 
 
 function App() {
@@ -52,13 +53,14 @@ function App() {
 
   // add padding to the container to avoid margin collapsing
   return (
+    <UserProvider>
     <LoginProvider>
     <Router>
       <div style={{height: "100%", width: "100%", padding: "1px"}}>
         {/* <Navbar /> */}
 
         <Sidebar state={state} setState={setState}/>
-
+        {/* add account tab to sidebar to allow for logout and deletion of account */}
         <Switch>
           {/* login */}
           {/* this will need to be restricted so that when you are logged in you cannot visit this route */}
@@ -97,6 +99,7 @@ function App() {
       </div>
     </Router>
     </LoginProvider>
+    </UserProvider>
   );
 }
 
