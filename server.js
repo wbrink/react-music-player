@@ -29,6 +29,7 @@ app.use(session({
 // middleware to attach user to req.user if authenticated
 app.use(require("./middleware/loadUser"));
 app.use(require("./routes/userAPI"));
+app.use(require("./routes/tracksAPI"));
 
 
 app.listen(PORT, () => console.log("Server Listening on port", PORT));

@@ -19,20 +19,17 @@ router.get("/api/isAuthenticated", (req,res) => {
 
 // LOGIN USER
 router.post("/api/user/login", async (req,res) => {
-  const {username, email, password} = req.body;
+  const {username, password} = req.body;
   
-  let sql = "SELECT * FROM users WHERE username = ? OR email = ?"
+  let sql = "SELECT * FROM users WHERE username = ? OR email = ?";
 
-  mysqlQuery
-
-  pool.query(sql, [username, email], (error, results) => {
+  pool.query(sql, [username, username], (error, results) => {
     if (error) {
       throw error;
     }
     const user = results[0]; // first element is the user since unique index on email and username
     if (user) {
       const comparePassword = bcrypt.compareSync(password, user.user_password);
-
       // if the password is correct
       if (comparePassword) {
         req.session.userID = user.user_id; // when the session object is adjusted it is saved to store

@@ -1,14 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import styles from "./Sidebar.module.scss";
 import image from "./music.svg";
-import {NavLink, useLocation} from "react-router-dom";
+import {NavLink, useLocation, useHistory} from "react-router-dom";
 
 const Sidebar = (props) => {
 
   const [search, setSearch] = useState("");
   const [playlistName, setPlaylistName] = useState("");
   let location = useLocation();
-  const [showDialog, setShowDialog] = useState(false);
+  const [showDialog, setShowDialog] = useState(false); 
+
+  let inputRef = useRef();
+  let history = useHistory();
 
   // event that opens the create playlist form
   const addPlaylist = (e) => {
@@ -20,6 +23,50 @@ const Sidebar = (props) => {
         return true;
       }
     })
+  }
+
+  // runs once on mount and when search state updates
+  useEffect(() => {
+    const abortCtrl = new AbortController();
+
+    if (search === "") {
+      return;
+    }
+    
+    const timer = setTimeout(() => {
+      if (search === inputRef.current.value) {
+        fetch("/api/tracks/search", {
+          method: "POST",
+          headers: {'Content-Type': 'application/json'},
+          signal: abortCtrl.signal,
+          body: JSON.stringify({search: search})
+        })
+        .then(res => res.json())
+        .then(data => {
+          console.log(data);
+        })
+        .catch((error) => {
+          if (error.name == "AbortError") {
+            console.log("aborted fetch");
+          } else {
+            throw error;
+          }
+        })
+      }
+
+    }, 700)
+
+    return () => {
+      abortCtrl.abort();
+      clearTimeout(timer);
+    }
+  }, [search])
+
+
+  // this will change the route give the results
+  const handleSearch = (e) => {
+    setSearch(e.target.value);
+    history.push("/search");
   }
 
   // this will create the playlist
@@ -60,7 +107,7 @@ const Sidebar = (props) => {
           <path fillRule="evenodd" d="M10.442 10.442a1 1 0 0 1 1.415 0l3.85 3.85a1 1 0 0 1-1.414 1.415l-3.85-3.85a1 1 0 0 1 0-1.415z"/>
           <path fillRule="evenodd" d="M6.5 12a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11zM13 6.5a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0z"/>
         </svg>
-        <input type="text" id="search" placeholder="Search" value={search} onChange={(e) => setSearch(e.target.value)} maxLength={40}/>
+        <input type="text" id="search" placeholder="Search" value={search} onChange={handleSearch} maxLength={40} ref={inputRef}/>
 
         {/* close icon when text appears*/}
         {search && <svg onClick={e => setSearch("")} width="1em" height="1em" viewBox="0 0 16 16" className={styles.clearTextButton} fill="currentColor" xmlns="http://www.w3.org/2000/svg">

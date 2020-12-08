@@ -7,6 +7,7 @@ import Sidebar from "./Components/Sidebar/Sidebar";
 import Library from "./Components/Library/Library";
 import Authenticate from "./Components/Authenticate/Authenticate";
 import Explore from "./Components/Explore/Explore";
+import Search from "./Components/Search/Search";
 
 // songProvider
 import {LibraryProvider} from "./Contexts/LibraryContext";
@@ -76,6 +77,10 @@ function App() {
 
           {/* explore */}
           <PrivateRoute path="/explore">
+            <Explore />
+          </PrivateRoute>
+
+          <PrivateRoute path="/search">
             <Explore />
           </PrivateRoute>
 

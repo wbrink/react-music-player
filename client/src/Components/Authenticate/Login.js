@@ -13,12 +13,11 @@ const Login = (props) => {
 
   const handleSubmit = (e) => {
     e.preventDefault(); // don't want form to submit
-    let data = {username: username, password: password};
 
     fetch("/api/user/login", {
       method: "POST",
       headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify(data)
+      body: JSON.stringify({username: username, password: password})
     })
     .then(res => res.json())
     .then(data => {
@@ -57,9 +56,6 @@ const Login = (props) => {
       <input type="submit" id="formSubmitButton" value="Login"/>
     </form>
   )
-    
-    
-
 } 
 
 export default Login;

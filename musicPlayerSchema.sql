@@ -1,3 +1,4 @@
+DROP DATABASE IF EXISTS music_player;
 CREATE DATABASE IF NOT EXISTS music_player;
 
 use music_player;
@@ -8,7 +9,8 @@ use music_player;
 CREATE TABLE artists
 (
 	artist_id INT PRIMARY KEY AUTO_INCREMENT,
-	artist_name VARCHAR(255) NOT NULL
+	artist_name VARCHAR(255) NOT NULL,
+    artist_picture_path VARCHAR(255)
 );
 
 -- ALBUMS 
@@ -18,7 +20,8 @@ CREATE TABLE albums
     album_name VARCHAR(255) NOT NULL,
     genre_id INT,
     artist_id INT,
-    release_date DATE NOT NULL
+    release_date DATE NOT NULL,
+    album_art_path VARCHAR(255)
 );
 
 
@@ -29,9 +32,11 @@ CREATE TABLE tracks
     track_name VARCHAR(255) NOT NULL,
     duration INT NOT NULL, -- in seconds
     track_number INT NOT NULL,
+    track_path VARCHAR(255),
     album_id INT,
     genre_id INT,
-    artist_id INT
+    artist_id INT,
+    plays INT
 );
 
 
