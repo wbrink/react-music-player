@@ -81,7 +81,7 @@ function App() {
           </PrivateRoute>
 
           <PrivateRoute path="/search">
-            <Explore />
+            <Search />
           </PrivateRoute>
 
           {/* library */}

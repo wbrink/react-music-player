@@ -19,7 +19,7 @@ ALTER TABLE users AUTO_INCREMENT = 1;
 -- The Joint is Jumpin Jazz & Blues, Happy, Joel Cummins, 1:45, AlbumThree
 -- King Porter Stomp Jazz & Blues, Happy, Joel Cummins, 1:41, AlbumThree
 -- Pine Street Country & Folk, Happy, Reed Mathis, 2:11, AlbumFour
--- Communicator Country & Folk, Happy, Reed Mathis, 2:31, AlbumFive
+-- Communicator Country & Folk, Happy, Reed Mathis, 2:31, CustomAlbum
 
 /*
 DELETE FROM artists;
@@ -85,7 +85,7 @@ INSERT INTO tracks (track_name, duration, track_number, album_id, genre_id, arti
 VALUES 
 ("Pine Street", 131, 1, @album_id, 2, 4);
 
-INSERT INTO albums (album_name, artist_id, genre_id, release_date) VALUES ("AlbumFive", 4, 2, CAST("2013-02-08" AS DATE));
+INSERT INTO albums (album_name, artist_id, genre_id, release_date) VALUES ("CustomAlbum", 4, 2, CAST("2013-02-08" AS DATE));
 SET @album_id = last_insert_id();
 INSERT INTO tracks (track_name, duration, track_number, album_id, genre_id, artist_id) 
 VALUES 
@@ -107,8 +107,8 @@ JOIN genres g ON t.genre_id = g.genre_id
 ORDER BY t.track_name;
 
 
-DROP PROCEDURE IF EXISTS searchMusic;
-DROP PROCEDURE IF EXISTS searchArtist;
+DROP PROCEDURE IF EXISTS searchTracks;
+DROP PROCEDURE IF EXISTS searchArtists;
 DROP PROCEDURE IF EXISTS searchAlbums;
 
 
@@ -117,10 +117,12 @@ DELIMITER $$
 CREATE PROCEDURE searchTracks(
 	IN search VARCHAR(255))
 BEGIN 
-	SELECT t.track_name, a.artist_name
+	SELECT t.track_name, a.artist_name, al.album_art_path, t.duration 
     FROM tracks t
-    JOIN artists a ON t.artist_id = a.artist_id 
+    JOIN artists a ON t.artist_id = a.artist_id
+    JOIN albums al ON t.album_id = al.album_id
     WHERE t.track_name LIKE concat(search, '%')
+    ORDER BY t.plays
     LIMIT 4;
 END $$
 DELIMITER ;
@@ -131,7 +133,7 @@ CREATE PROCEDURE searchArtists(
 	IN search VARCHAR(255))
 BEGIN 
     -- get artists with name like search 
-    SELECT artist_name
+    SELECT artist_name, artist_picture_path
     FROM artists
     WHERE artist_name LIKE concat(search, '%')
     LIMIT 4;
@@ -143,7 +145,7 @@ CREATE PROCEDURE searchAlbums(
 	IN search VARCHAR(255))
 BEGIN 
     -- get albums with name like search 
-    SELECT albums.album_name, artists.artist_name 
+    SELECT albums.album_name, albums.release_date, albums.album_art_path, artists.artist_name 
     FROM albums
     JOIN artists ON albums.artist_id = artists.artist_id
     WHERE albums.album_name LIKE concat(search, '%')
@@ -152,7 +154,7 @@ END $$
 DELIMITER ;
 
 
-    
+SELECT * FROM users WHERE user_id = 3;
 
 SELECT * FROM artists;
 

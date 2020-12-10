@@ -10,7 +10,7 @@ CREATE TABLE artists
 (
 	artist_id INT PRIMARY KEY AUTO_INCREMENT,
 	artist_name VARCHAR(255) NOT NULL,
-    artist_picture_path VARCHAR(255)
+    artist_picture_path VARCHAR(255) DEFAULT "/artist_images/portrait-placeholder.png"
 );
 
 -- ALBUMS 
@@ -21,7 +21,7 @@ CREATE TABLE albums
     genre_id INT,
     artist_id INT,
     release_date DATE NOT NULL,
-    album_art_path VARCHAR(255)
+    album_art_path VARCHAR(255) DEFAULT "/album_covers/cover.jpg"
 );
 
 
