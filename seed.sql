@@ -110,6 +110,7 @@ ORDER BY t.track_name;
 DROP PROCEDURE IF EXISTS searchTracks;
 DROP PROCEDURE IF EXISTS searchArtists;
 DROP PROCEDURE IF EXISTS searchAlbums;
+DROP PROCEDURE IF EXISTS getArtistTopTracks;
 
 
 -- stored procedure for searching
@@ -133,10 +134,10 @@ CREATE PROCEDURE searchArtists(
 	IN search VARCHAR(255))
 BEGIN 
     -- get artists with name like search 
-    SELECT artist_name, artist_picture_path
+    SELECT artist_id, artist_name, artist_picture_path
     FROM artists
     WHERE artist_name LIKE concat(search, '%')
-    LIMIT 4;
+    LIMIT 8;
 END $$
 DELIMITER ;
 
@@ -145,11 +146,11 @@ CREATE PROCEDURE searchAlbums(
 	IN search VARCHAR(255))
 BEGIN 
     -- get albums with name like search 
-    SELECT albums.album_name, albums.release_date, albums.album_art_path, artists.artist_name 
+    SELECT albums.album_id, albums.album_name, albums.release_date, albums.album_art_path, artists.artist_name 
     FROM albums
     JOIN artists ON albums.artist_id = artists.artist_id
     WHERE albums.album_name LIKE concat(search, '%')
-    LIMIT 4;
+    LIMIT 8;
 END $$
 DELIMITER ;
 
@@ -165,3 +166,30 @@ CALL searchAlbums("album");
 CALL searchTracks("");
 
 SELECT * FROM tracks;
+
+-- when someone searches for artist
+
+
+DELIMITER $$ 
+CREATE PROCEDURE getArtistTopTracks(
+	IN search INT)
+BEGIN 
+    SELECT t.track_id, t.track_name, t.duration, t.plays, a.artist_id, a.artist_name, al.album_art_path
+	FROM artists a
+	JOIN tracks t ON t.artist_id = a.artist_id
+	JOIN albums al ON t.album_id = al.album_id 
+	WHERE a.artist_id = search
+	ORDER BY t.plays
+    LIMIT 10;
+
+END $$
+DELIMITER ;
+
+-- get artist Discography
+SELECT al.album_id, al.album_name, al.release_date, al.album_art_path
+FROM albums al
+WHERE al.artist_id = 1
+ORDER BY al.release_date ASC;
+
+
+CALL getArtistTopTracks(1);

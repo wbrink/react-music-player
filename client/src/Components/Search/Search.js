@@ -78,12 +78,17 @@ const Search = (props) => {
       <div className={styles.section}>
         <h1>Albums</h1>
         {/* map over the albums */}
-        
-        {searchResult.albums.map((obj, index) => {
-          return (
-            <p>{JSON.stringify(obj)}</p>
-          )
-        })}
+        <div className={styles.artistSection}>
+          {searchResult.albums.map((obj, index) => {
+            return (
+              <div className={styles.artistCard}>
+                <img className={styles.albumCover} src={obj.album_art_path} alt=""/>
+                <p className={styles.primaryText}>{obj.album_name}</p>
+                <p className={styles.secondaryText}>{obj.artist_name}</p>
+              </div>
+            )
+          })}
+        </div>
       </div>
     
     </div>

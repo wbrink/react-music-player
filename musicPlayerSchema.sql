@@ -36,7 +36,7 @@ CREATE TABLE tracks
     album_id INT,
     genre_id INT,
     artist_id INT,
-    plays INT
+    plays INT DEFAULT 0
 );
 
 
