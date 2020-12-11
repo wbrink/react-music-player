@@ -23,6 +23,7 @@ import { LoginProvider } from './utils/LoginContext';
 import PrivateRoute from './Components/PrivateRoute';
 import RestrictedRoute from "./Components/RestrictedRoute";
 import { UserProvider } from './utils/UserContext';
+import { SearchProvider } from "./utils/SeachContext";
 
 
 function App() {
@@ -55,6 +56,7 @@ function App() {
   // add padding to the container to avoid margin collapsing
   return (
     <UserProvider>
+    <SearchProvider>
     <LoginProvider>
     <Router>
       <div style={{height: "100%", width: "100%", padding: "1px"}}>
@@ -104,6 +106,7 @@ function App() {
       </div>
     </Router>
     </LoginProvider>
+    </SearchProvider>
     </UserProvider>
   );
 }

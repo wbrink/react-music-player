@@ -117,7 +117,7 @@ DELIMITER $$
 CREATE PROCEDURE searchTracks(
 	IN search VARCHAR(255))
 BEGIN 
-	SELECT t.track_name, a.artist_name, al.album_art_path, t.duration 
+	SELECT t.track_id, t.track_name, a.artist_name, al.album_name, al.album_art_path, t.duration 
     FROM tracks t
     JOIN artists a ON t.artist_id = a.artist_id
     JOIN albums al ON t.album_id = al.album_id
@@ -161,3 +161,7 @@ SELECT * FROM artists;
 CALL searchTracks("soft");
 CALL searchArtists("che");
 CALL searchAlbums("album");
+
+CALL searchTracks("");
+
+SELECT * FROM tracks;

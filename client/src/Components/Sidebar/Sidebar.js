@@ -2,9 +2,10 @@ import React, { useState, useEffect, useRef } from 'react';
 import styles from "./Sidebar.module.scss";
 import image from "./music.svg";
 import {NavLink, useLocation, useHistory} from "react-router-dom";
+import { useSearchResults } from '../../utils/SeachContext';
 
 const Sidebar = (props) => {
-
+  const [searchResults, setSearchResults] = useSearchResults();
   const [search, setSearch] = useState("");
   const [playlistName, setPlaylistName] = useState("");
   let location = useLocation();
@@ -29,9 +30,13 @@ const Sidebar = (props) => {
   useEffect(() => {
     const abortCtrl = new AbortController();
 
-    if (search === "") {
-      return;
-    }
+    // if (search == "") {
+    //   // redirect back to library
+    //   setSearchResults(false);
+    //   history.push("/library");
+    //   return;
+    // }
+    
     
     const timer = setTimeout(() => {
       if (search === inputRef.current.value) {
@@ -44,6 +49,18 @@ const Sidebar = (props) => {
         .then(res => res.json())
         .then(data => {
           console.log(data);
+          // if no results
+          if (data[0].length === 0 && data[1].length === 0 && data[2].length === 0) {
+            setSearchResults("no results found");
+          } else {
+            setSearchResults({
+              tracks: data[0],
+              artists: data[1],
+              albums: data[2]
+            })
+          }
+
+          
         })
         .catch((error) => {
           if (error.name == "AbortError") {

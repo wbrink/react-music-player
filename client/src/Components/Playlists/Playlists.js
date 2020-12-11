@@ -6,7 +6,7 @@ const Playlists = (props) => {
 
   return (
     <div className={styles.container}>
-      <h2>Hello Playlsits</h2>
+      <h2>Playlist Section Under Development</h2>
     </div>
   );
 }
