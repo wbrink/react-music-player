@@ -185,11 +185,20 @@ BEGIN
 END $$
 DELIMITER ;
 
--- get artist Discography
-SELECT al.album_id, al.album_name, al.release_date, al.album_art_path
-FROM albums al
-WHERE al.artist_id = 1
-ORDER BY al.release_date ASC;
+DELIMITER $$ 
+CREATE PROCEDURE getArtistDiscography(
+	IN search INT)
+BEGIN 
+   -- get artist Discography
+	SELECT al.album_id, al.album_name, al.release_date, al.album_art_path
+	FROM albums al
+	WHERE al.artist_id = search
+	ORDER BY al.release_date ASC;
+END $$
+DELIMITER ;
+
+
 
 
 CALL getArtistTopTracks(1);
+CALL getArtistDiscography(3);

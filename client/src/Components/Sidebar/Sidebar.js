@@ -30,12 +30,12 @@ const Sidebar = (props) => {
   useEffect(() => {
     const abortCtrl = new AbortController();
 
-    // if (search == "") {
-    //   // redirect back to library
-    //   setSearchResults(false);
-    //   history.push("/library");
-    //   return;
-    // }
+    if (search == "") {
+      // redirect back to library
+      setSearchResults(false);
+      history.push("/library");
+      return;
+    }
     
     
     const timer = setTimeout(() => {

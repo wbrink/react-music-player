@@ -1,12 +1,18 @@
 import React from "react";
 import { useSearchResults } from "../../utils/SeachContext";
 import styles from "./Search.module.scss";
+import {useHistory} from "react-router-dom";
 
 
 
 const Search = (props) => {
-
+  let history = useHistory();
   const searchResult = useSearchResults()[0]; // just want the search results not the ability to change them
+
+  const handleArtistClick = (id, artist_name) => {
+    // switch routes to artist
+    history.push(`/artist/${artist_name}/${id}`);
+  }
   
   // searchResult will return false if nothing in search bar
   if (!searchResult) {
@@ -66,7 +72,7 @@ const Search = (props) => {
         <div className={styles.artistSection}>
           {searchResult.artists.map((obj, index) => {
             return (
-              <div className={styles.artistCard}>
+              <div className={styles.artistCard} onClick={() => handleArtistClick(obj.artist_id, obj.artist_name)}>
                 <img src={obj.artist_picture_path} alt=""/>
                 <h3>{obj.artist_name}</h3>
               </div>
