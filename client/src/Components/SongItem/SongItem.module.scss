@@ -1,89 +1,87 @@
-@mixin ellipsis {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-
-.songItem {
-  padding: 10px 20px 10px 20px;
-  width: 100%;
-  display: flex;
-  align-items: center;
-  // border-top: 1px solid black;
-  border-bottom: 1px solid black;
-  transition: background 200ms ease-in-out;
+.song {
   color: rgb(233, 233, 233);
+  padding: 7px 0px;
+  width: 100%;
+  display: grid;
+  grid-template-columns: minmax(300px, 4fr) minmax(150px, 2fr) 1fr 1fr;
+  column-gap: 15px;
+  transition: background-color .3s ease;
 
   &:hover {
-    background: rgb(63, 63, 63);
+    background-color: rgb(62,62,62);
+    border-radius: 5px;
+  }
+}
 
-    & .playButton {
-      border: 1px solid rgb(189, 53, 252);
+.songDuration {
+  align-self: center;
+  margin-right: 15px;
+  margin-left: 20px;
+}
+
+.mainSongInfo {
+  display: flex;
+  flex: 0 0 300px;
+
+  .index {
+    width: 60px;
+    text-align: center;
+  }
+
+  .songImage {
+    width: 40px;
+    height: 40px;
+    margin-right: 10px;
+  }
+
+  .titleArtist {
+    display: flex; 
+    flex-direction: column;
+    justify-content: space-between;
+  }
+}
+
+.callToAction {
+  margin-top: 5px;
+  align-self: center;
+  justify-self: end;
+
+  svg {
+    cursor: pointer;
+    transition: fill .3s linear;
+    
+    &:hover {
+      fill: purple;
     }
   }
-
-  &.active {
-    background: rgb(78, 78, 78);
-  }
-
-  &.playing {
-    color: rgb(0, 255, 255);
-  }
-
-
-
 }
 
-.playButton {
-  flex: 0 0 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 1px solid transparent;
-  border-radius: 50%;
-  margin-right: 15px;
-  padding: 3px;
+div {
+  align-self: center;
+  justify-self: flex-start;
+}
+
+
+.songArtistSearch {
+  display: grid;
+  grid-template-columns: minmax(300px, 4fr) minmax(150px, 2fr) 1fr;
+  padding: 8px;
+  color: white;
 
   &:hover {
-    animation: pulse 2s linear infinite;
-  }
-  
-
-  
-}
-
-.song {
-  flex: 0 1 300px;
-  min-width: 250px;
-  padding-right: 10px;
-
-  // // 
-  // word-wrap: none;
-  @include ellipsis;
-}
-
-.artist {
-  flex: 0 1 200px;
-  min-width: 100px;
-  @include ellipsis;
-}
-
-.album {
-  flex: 0 1 100px;
-  @include ellipsis;
-}
-
-@keyframes pulse {
-  0% {
-    box-shadow: 0 0 0 0 rgba(255, 2, 242, 0.7);
-  }
-
-  80% {
-    box-shadow: 0 0 0 8px rgba(189, 53, 252, 0);
-  }
-
-  100% {
-    box-shadow: 0 0 0 0 rgba(255, 0, 0, 0);
+    background-color: rgb(62,62,62);
+    border-radius: 5px;
   }
 }
+
+
+.durationAndAction {
+  display: flex;
+  justify-self: end;
+
+  div:first-child {
+    margin-right: 30px;
+  }
+}
+
+

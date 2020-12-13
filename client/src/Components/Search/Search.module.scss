@@ -12,6 +12,7 @@
 .song {
   color: rgb(233, 233, 233);
   padding: 7px 5px;
+  width: 100%;
   display: grid;
   grid-template-columns: minmax(300px, 4fr) minmax(150px, 2fr) 1fr 1fr;
   column-gap: 15px;
@@ -30,6 +31,11 @@
   .mainSongInfo {
     display: flex;
     flex: 0 0 300px;
+
+    .index {
+      width: 60px;
+      text-align: center;
+    }
 
     .songImage {
       width: 40px;

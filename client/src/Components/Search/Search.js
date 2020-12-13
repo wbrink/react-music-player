@@ -3,6 +3,8 @@ import { useSearchResults } from "../../utils/SeachContext";
 import styles from "./Search.module.scss";
 import {useHistory} from "react-router-dom";
 
+import SongController from "../SongItem/SongController";
+
 
 
 const Search = (props) => {
@@ -35,10 +37,13 @@ const Search = (props) => {
     <div className ={styles.container}>
       <section className={styles.section}>
         <h1>Songs</h1>
-        {searchResult.tracks.length !== 0 && searchResult.tracks.map((obj, index) => {
+        {searchResult.tracks.length !== 0 && <SongController songArray={searchResult.tracks} type="search" /> }
+
+        {/* {searchResult.tracks.length !== 0 && searchResult.tracks.map((obj, index) => {
           return (
             <div className={styles.song}>
               <div className={styles.mainSongInfo}>
+                <div className={styles.index}>{index + 1}</div>
                 <img className={styles.songImage} src={obj.album_art_path} alt="picture of album art"/>
                 <div className={styles.titleArtist}>
                   <h4 className={styles.songTitle}>{obj.track_name}</h4>
@@ -62,7 +67,7 @@ const Search = (props) => {
               </div>
             </div>
           )})
-        } 
+        }  */}
         
       </section>
 

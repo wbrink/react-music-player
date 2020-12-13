@@ -4,7 +4,7 @@ import './App.scss';
 // components
 import MusicPlayer from './Components/MusicPlayer/MusicPlayer';
 import Sidebar from "./Components/Sidebar/Sidebar";
-import Library from "./Components/Library/Library";
+// import Library from "./Components/Library/Library";
 import Authenticate from "./Components/Authenticate/Authenticate";
 import Explore from "./Components/Explore/Explore";
 import Search from "./Components/Search/Search";
@@ -79,9 +79,9 @@ function App() {
           </RestrictedRoute>
 
           {/* explore */}
-          <PrivateRoute path="/explore">
+          {/* <PrivateRoute path="/explore">
             <Explore />
-          </PrivateRoute>
+          </PrivateRoute> */}
 
           <PrivateRoute path="/artist/:name/:id">
             <Artist />
@@ -92,14 +92,14 @@ function App() {
           </PrivateRoute>
 
           {/* library */}
-          <PrivateRoute path="/library">
+          {/* <PrivateRoute path="/library">
             <Library key={state} state={state} setState={setState} />
-          </PrivateRoute>
+          </PrivateRoute> */}
           
           {/* playlists */}
-          <PrivateRoute path="/playlists">
+          {/* <PrivateRoute path="/playlists">
             <Playlists key={state} state={state} setState={setState}/>
-          </PrivateRoute>
+          </PrivateRoute> */}
 
           <PrivateRoute path="/">
             {() => ""}
