@@ -1,6 +1,61 @@
 .hero {
+  color: rgb(235, 235, 235);
   height: 25%;
   width: 100%;
   background: rgb(2,0,45);
   background: linear-gradient(90deg, #67D0CA 0%, rgb(74, 132, 155) 36%, #333333 100%);
+  display: grid;
+  grid-template-columns: minmax(200px, auto) 1fr;
+  column-gap: 25px;
+  grid-template-rows: 5;
+  grid-template-areas: 
+    "box1 box2"
+    "box1 box3"
+    "box1 box7"
+    "box1 box8"
+    "box1 box5";
+  padding: 20px;
+
+  .albumCover {
+    height: 100%;
+    width: auto;
+    grid-area: box1;
+  }
 }
+
+.albumMisc {
+  grid-area: box5;
+  display: grid;
+  row-gap: 20px;
+}
+
+h2 {
+  // font-weight: lighter;
+  color: white;
+  letter-spacing: 3px;
+  // text-transform: uppercase;
+}
+
+.info {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+
+  svg {
+    height: 10px;
+    margin-left: 10px;
+    margin-right: 10px;
+    fill: black;
+  }
+
+  .artistName {
+    letter-spacing: 1px;
+    font-weight: bold;
+  }
+  img {
+    width: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+  }
+}
+
