@@ -4,32 +4,16 @@ import { useParams } from "react-router-dom";
 import SongController from "../SongItem/SongController";
 
 
-function getAlbumDuration(songArray) {
-  let time = 0; //time in seconds
-  songArray.forEach(obj => {
-    time += obj.duration;
-  });
-
-  return formattedTime(time);
-}
-
-function formattedTime(time) {
-  let hours = Math.floor(time/3600);
-  let minutes = Math.floor(time/60);
-  let seconds = time % 60;
-
-  return `${hours} hours, ${minutes} minutes, ${seconds} seconds`;
-}
-
 
 const Album = () => {
   let {id} = useParams(); // get the album id from the url parameter
-  const [albumInfo, setAlbumInfo] = useState("AlbumInfo empty");
+  const [albumInfo, setAlbumInfo] = useState(false);
 
   // run when component mounts
   useEffect(() => {
     const abortCtrl = new AbortController();
     const opts = {signal: abortCtrl.signal}
+    
 
     fetch(`/api/album/${id}`, opts)
       .then(res => res.json())
@@ -46,11 +30,11 @@ const Album = () => {
           albumName: data[0].album_name,
           releaseDate: data[0].release_date.substring(0,4),
           albumDuration: getAlbumDuration(data)
-        })
-        
+        })        
       })
       .catch(error => {
         console.error(error);
+        setAlbumInfo(false);
       })
 
     return () => {
@@ -59,9 +43,12 @@ const Album = () => {
 
   }, []) 
 
+  if (albumInfo === false) {
+    return ("");
+  }
   
   return (
-    <div className="no-padding container">
+    <div className=" no-padding container">
       
       <div className={styles.hero}>
         <img className={styles.albumCover} src={albumInfo.albumPicture} alt="picture of album"/>
@@ -94,10 +81,15 @@ const Album = () => {
         </div>
       </div>
       
-      {/* <SongController 
-      
-      
-      /> */}
+      {/* wait until the data is fetched */}
+      <div className={styles.albumSongs}>
+        {albumInfo !== false && 
+          <SongController 
+            songArray={albumInfo.songs}
+            type="artistSearch"
+          />
+        }
+      </div>
 
 
     </div>
@@ -107,7 +99,22 @@ const Album = () => {
 }
 
 
+function getAlbumDuration(songArray) {
+  let time = 0; //time in seconds
+  songArray.forEach(obj => {
+    time += obj.duration;
+  });
 
+  return formattedTime(time);
+}
+
+function formattedTime(time) {
+  let hours = Math.floor(time/3600);
+  let minutes = Math.floor(time/60);
+  let seconds = time % 60;
+
+  return `${hours} hours, ${minutes} minutes, ${seconds} seconds`;
+}
 
 
 export default Album;

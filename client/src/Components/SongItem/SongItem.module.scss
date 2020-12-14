@@ -7,6 +7,11 @@
   column-gap: 15px;
   transition: background-color .3s ease;
 
+  div {
+    align-self: center;
+    justify-self: flex-start;
+  }
+
   &:hover {
     background-color: rgb(62,62,62);
     border-radius: 5px;
@@ -56,10 +61,7 @@
   }
 }
 
-div {
-  align-self: center;
-  justify-self: flex-start;
-}
+
 
 
 .songArtistSearch {
@@ -67,6 +69,11 @@ div {
   grid-template-columns: minmax(300px, 4fr) minmax(150px, 2fr) 1fr;
   padding: 8px 0px;
   color: white;
+
+  div {
+    align-self: center;
+    justify-self: flex-start;
+  }
 
   &:hover {
     background-color: rgb(62,62,62);

@@ -11,17 +11,13 @@ $clr-blue: rgb(46, 144, 236);
 // container that houses the music player
 .container {
   user-select: none;
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0px;
   width: 100%;
   height: 75px;
   background-color: $soft-dark-ui;
 
   display: flex;
   flex-direction: column;
-  animation: slide-up 200ms linear forwards;
+  // animation: slide-up 200ms linear forwards;
 
   @media only screen and (max-width: 780px) {
     height: 75px;
@@ -164,12 +160,12 @@ $clr-blue: rgb(46, 144, 236);
 
 
 
-@keyframes slide-up {
-  0% {
-    bottom: -75px;
-  }
+// @keyframes slide-up {
+//   0% {
+//     bottom: -75px;
+//   }
 
-  100% {
-    bottom: 0px;
-  }
-}
+//   100% {
+//     bottom: 0px;
+//   }
+// }

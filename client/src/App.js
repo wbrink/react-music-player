@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import './App.scss';
 
 // components
 import MusicPlayer from './Components/MusicPlayer/MusicPlayer';
 import Sidebar from "./Components/Sidebar/Sidebar";
 // import Library from "./Components/Library/Library";
 import Authenticate from "./Components/Authenticate/Authenticate";
-import Explore from "./Components/Explore/Explore";
+// import Explore from "./Components/Explore/Explore";
 import Search from "./Components/Search/Search";
 import Artist from "./Components/Artist/Artist";
 
@@ -61,58 +60,44 @@ function App() {
     <SearchProvider>
     <LoginProvider>
     <Router>
-      <div style={{height: "100%", width: "100%", padding: "1px"}}>
-        {/* <Navbar /> */}
-
-        <Sidebar state={state} setState={setState}/>
+      <div className="grid">
+        <div className="sidebar"><Sidebar state={state} setState={setState}/></div>
+        
         {/* add account tab to sidebar to allow for logout and deletion of account */}
-        <Switch>
-          {/* login */}
-          {/* this will need to be restricted so that when you are logged in you cannot visit this route */}
-          
+        <div className="mainContent">
+          <Switch>
+            
+            <RestrictedRoute path="/login">
+              <Authenticate />
+            </RestrictedRoute>
 
-          <RestrictedRoute path="/login">
-            <Authenticate />
-          </RestrictedRoute>
+            <RestrictedRoute path="/signup">
+              <Authenticate />
+            </RestrictedRoute>
 
-          <RestrictedRoute path="/signup">
-            <Authenticate />
-          </RestrictedRoute>
+            
 
-          {/* explore */}
-          {/* <PrivateRoute path="/explore">
-            <Explore />
-          </PrivateRoute> */}
+            <PrivateRoute path="/artist/:name/:id">
+              <Artist />
+            </PrivateRoute>
 
-          <PrivateRoute path="/artist/:name/:id">
-            <Artist />
-          </PrivateRoute>
+            <PrivateRoute path="/search">
+              <Search />
+            </PrivateRoute>
 
-          <PrivateRoute path="/search">
-            <Search />
-          </PrivateRoute>
+            <PrivateRoute path="/album/:id">
+              <Album />
+            </PrivateRoute>
 
-          <PrivateRoute path="/album/:id">
-            <Album />
-          </PrivateRoute>
-
-          {/* library */}
-          {/* <PrivateRoute path="/library">
-            <Library key={state} state={state} setState={setState} />
-          </PrivateRoute> */}
-          
-          {/* playlists */}
-          {/* <PrivateRoute path="/playlists">
-            <Playlists key={state} state={state} setState={setState}/>
-          </PrivateRoute> */}
-
-          <PrivateRoute path="/">
-            {() => ""}
-          </PrivateRoute>
-  
-        </Switch>
-
-        <MusicPlayer key={state} state={state} setState={setState}/>
+            <PrivateRoute path="/">
+              {() => ""}
+            </PrivateRoute>
+    
+          </Switch>
+        </div>
+        
+        <div className="footer"><MusicPlayer key={state} state={state} setState={setState}/></div>
+        
       </div>
     </Router>
     </LoginProvider>
@@ -122,3 +107,19 @@ function App() {
 }
 
 export default App;
+
+
+
+            // {/* <PrivateRoute path="/explore">
+            //   <Explore />
+            // </PrivateRoute> */}
+
+
+
+            // {/* <PrivateRoute path="/library">
+            //   <Library key={state} state={state} setState={setState} />
+            // </PrivateRoute> */}
+            
+            // {/* <PrivateRoute path="/playlists">
+            //   <Playlists key={state} state={state} setState={setState}/>
+            // // </PrivateRoute> 

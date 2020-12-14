@@ -47,7 +47,7 @@ const Artist = () => {
   }
 
   return (
-    <div className ={styles.container}>
+    <div className="container">
       <div className={styles.section}>
         <h1>{name}</h1>
         {/* this will display the songs */}

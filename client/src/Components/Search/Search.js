@@ -34,7 +34,7 @@ const Search = (props) => {
   }
 
   return (
-    <div className ={styles.container}>
+    <div className="container">
       <section className={styles.section}>
         <h1>Songs</h1>
         {searchResult.tracks.length !== 0 && <SongController songArray={searchResult.tracks} type="search" /> }
