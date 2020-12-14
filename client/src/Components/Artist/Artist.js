@@ -2,10 +2,16 @@ import React, {useEffect, useState} from "react";
 import styles from "./Artist.module.scss";
 import {useParams} from "react-router-dom";
 import SongController from "../SongItem/SongController";
+import {useHistory} from "react-router-dom";
 
 const Artist = () => {
   const {name, id} = useParams();
   const [artistInfo, setArtistInfo] = useState();
+  let history = useHistory();
+  const handleAlbumClick = (album_id) => {
+    console.log(album_id);
+    history.push(`/album/${album_id}`);
+  }
 
   // runs once on mount
   useEffect(() => {
@@ -42,12 +48,32 @@ const Artist = () => {
 
   return (
     <div className ={styles.container}>
-      <h1>{name}</h1>
-      {/* this will display the songs */}
-      <SongController 
-        type="artistSearch"
-        songArray={artistInfo.tracks}
-      />    
+      <div className={styles.section}>
+        <h1>{name}</h1>
+        {/* this will display the songs */}
+        <SongController 
+          type="artistSearch"
+          songArray={artistInfo.tracks}
+        />  
+      </div>
+
+      <div className={styles.section}>
+        <h1>Discography</h1>
+        <div className={styles.artistSection}>
+          {artistInfo.albums.map((obj, index) => {
+            return (
+              <div className={styles.artistCard} onClick={() => handleAlbumClick(obj.album_id)}>
+                <img className={styles.albumCover} src={obj.album_art_path} alt=""/>
+                <p className={styles.primaryText}>{obj.album_name}</p>
+                <p className={styles.secondaryText}>{obj.artist_name}</p>
+              </div>
+            )
+          })}
+        </div>
+      </div>
+      
+      
+        
     </div>
   )
 }

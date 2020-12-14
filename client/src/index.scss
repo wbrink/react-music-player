@@ -97,3 +97,19 @@ body {
     margin-right: 8px;
   }
 }
+
+
+
+.container {  
+  width: calc(100% - 250px);
+  height: calc(100% - 75px);
+  margin-left: auto;
+  background-color: rgb(51, 51, 51);
+  overflow-y: scroll;
+  padding: 20px 30px;
+}
+
+.no-padding {
+  padding: 0;
+}
+

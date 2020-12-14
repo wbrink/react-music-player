@@ -65,7 +65,7 @@ div {
 .songArtistSearch {
   display: grid;
   grid-template-columns: minmax(300px, 4fr) minmax(150px, 2fr) 1fr;
-  padding: 8px;
+  padding: 8px 0px;
   color: white;
 
   &:hover {

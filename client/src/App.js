@@ -25,6 +25,7 @@ import PrivateRoute from './Components/PrivateRoute';
 import RestrictedRoute from "./Components/RestrictedRoute";
 import { UserProvider } from './utils/UserContext';
 import { SearchProvider } from "./utils/SeachContext";
+import Album from './Components/Album/Album';
 
 
 function App() {
@@ -89,6 +90,10 @@ function App() {
 
           <PrivateRoute path="/search">
             <Search />
+          </PrivateRoute>
+
+          <PrivateRoute path="/album/:id">
+            <Album />
           </PrivateRoute>
 
           {/* library */}

@@ -197,6 +197,11 @@ BEGIN
 END $$
 DELIMITER ;
 
+SELECT t.track_id, t.track_name, a.artist_name, a.artist_id, a.artist_picture_path, al.album_id, al.album_name, al.album_art_path, al.release_date, t.plays, t.duration 
+FROM tracks t
+JOIN artists a ON a.artist_id = t.artist_id
+JOIN albums al ON t.album_id = al.album_id
+WHERE t.album_id = 2;
 
 
 
