@@ -45,11 +45,24 @@ router.get("/api/album/:id", (req,res) => {
   WHERE t.album_id = ?;
   `;
 
-  pool.query(sql, id, (error, results) => {
+  pool.query(sql, [id], (error, results) => {
     if (error) {
       throw error;
     }
 
+    res.json(results);
+  })
+})
+
+router.get("/api/artist-discography/:id", (req,res) => {
+  const {id} = req.params;
+
+  let sql = `CALL getArtistDiscography(?);`
+  pool.query(sql, [id], (error,results) => {
+    if (error) {
+      res.status(500).json({error: "there was an error"});
+    }
+    results.splice(1,1);
     res.json(results);
   })
 })

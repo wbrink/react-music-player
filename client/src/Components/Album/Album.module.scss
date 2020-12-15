@@ -26,15 +26,20 @@
 .albumMisc {
   grid-area: box5;
   display: grid;
-  row-gap: 20px;
+  h2 {
+    // font-weight: lighter;
+    color: white;
+    letter-spacing: 3px;
+    // text-transform: uppercase;
+  }
+
+  a {
+    text-decoration: none;
+    color: white;
+  }
 }
 
-h2 {
-  // font-weight: lighter;
-  color: white;
-  letter-spacing: 3px;
-  // text-transform: uppercase;
-}
+
 
 .info {
   display: flex;
@@ -69,3 +74,10 @@ h2 {
   }
 }
 
+
+
+.otherAlbums {
+  margin-top: 50px;
+  color: rgb(15, 235, 235);
+  margin-bottom: 20px;
+}
