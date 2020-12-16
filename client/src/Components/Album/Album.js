@@ -12,7 +12,8 @@ const Album = (props) => {
   const [artistDiscography, setArtistDiscography] = useState(false);
   const [rerender, setRerender] = useState(false); 
 
-  // run when component mounts
+  // run when component mounts and when
+  // run when id changes (this means that another album was clicked under "other albums section" underneath the songs)
   useEffect(() => {
     const abortCtrl = new AbortController();
     const opts = {signal: abortCtrl.signal}

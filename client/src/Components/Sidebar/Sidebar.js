@@ -10,9 +10,20 @@ const Sidebar = (props) => {
   const [playlistName, setPlaylistName] = useState("");
   let location = useLocation();
   const [showDialog, setShowDialog] = useState(false); 
+  const [showMenu, setShowMenu] = useState(false); // for the mobile nav
+  const [opacity, setOpacity] = useState(0);
 
   let inputRef = useRef();
   let history = useHistory();
+
+  // hamburger
+  const handleHamburgerClick = () => {
+    if (showMenu == false) {
+      setShowMenu(true);
+    } else {
+      setShowMenu(false);
+    }
+  }
 
   // event that opens the create playlist form
   const addPlaylist = (e) => {
@@ -170,6 +181,60 @@ const Sidebar = (props) => {
         </div>
 
       </div>
+
+      <div className={styles.mobileNav}>
+        {/* logo */}
+        <div className={styles.logoContainer}>
+          <div className={styles.logo}>
+            <img src={image} alt=""/>
+          </div>
+          <span className={styles.logoName}>Music</span>
+        </div>
+
+        <div className={styles.hamburger} onClick={handleHamburgerClick}>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M2.5 11.5A.5.5 0 0 1 3 11h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4A.5.5 0 0 1 3 7h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4A.5.5 0 0 1 3 3h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"/>
+          </svg>
+        </div>
+
+        <div className={styles.menu} style={showMenu ? {opacity: "1", left: "0"} : {opacity: "0", left: "-100%"}}>
+          <div className={styles.links}>
+            <NavLink to="/library" activeClassName={styles.active}>Library</NavLink>
+            <NavLink to="/explore" activeClassName={styles.active}>Explore</NavLink>
+            {/* <NavLink to="/favorites" activeClassName={styles.active}>Favorites</NavLink> */}
+            <NavLink to="/playlists" activeClassName={styles.active}>
+              <div className={styles.playlistContainer}>
+                <span>Playlist</span>
+                
+                {!showDialog && 
+                  <svg onClick={addPlaylist} width="1em" height="1em" viewBox="0 0 16 16" className="bi bi-plus-square" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" d="M14 1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
+                    <path fill-rule="evenodd" d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+                  </svg>
+                }
+
+                {showDialog && 
+                  <svg width="1em" onClick={addPlaylist} height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" d="M14 1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
+                    <path fill-rule="evenodd" d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+                  </svg>
+                }
+              </div> 
+
+              {/* add playlist form */}
+              <div className={showDialog ? `${styles.playlistForm} ${styles.open}` : `${styles.playlistForm}`}>
+                <label htmlFor="playlistName">Create New Playlist</label>
+                <input type="text" name="" id="" onChange={(e) => setPlaylistName(e.target.value)} value={playlistName} />
+                <input type="submit" value="Add" onClick={createPlaylist} />      
+              </div>
+              
+
+            </NavLink>
+          </div>
+        </div>
+
+      </div>
+
     </div>
   );
 }
