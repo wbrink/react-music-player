@@ -54,7 +54,9 @@ body {
 
 .mainContent {
   grid-area: mainContent;
-  // background-color: red;
+  overflow-y: auto;
+  overflow-x: auto;
+    // background-color: red;
 }
 
 .footer {
