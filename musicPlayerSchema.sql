@@ -79,6 +79,13 @@ CREATE TABLE users
     joined TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+DROP TABLE IF EXISTS library_tracks;
+CREATE TABLE library_tracks (
+	user_id INT NOT NULL,
+    track_id INT NOT NULL,
+    created DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
 CREATE TABLE playlists 
 (
 	playlist_id INT PRIMARY KEY AUTO_INCREMENT,
@@ -94,12 +101,18 @@ CREATE TABLE playlist_tracks
     date_added TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+
+ALTER TABLE library_tracks 
+ADD FOREIGN KEY (track_id) REFERENCES tracks(track_id) ON DELETE CASCADE;
+
+ALTER TABLE library_tracks
+ADD FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE;
+
 ALTER TABLE playlists
 ADD FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE;
 
 ALTER TABLE playlist_tracks
 ADD FOREIGN KEY (playlist_id) REFERENCES playlists(playlist_id) ON DELETE CASCADE;
 	
-    
 
 

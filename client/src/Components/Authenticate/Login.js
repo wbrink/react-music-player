@@ -1,16 +1,22 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {useHistory} from "react-router-dom";
+import { usePlaylist } from "../../utils/PlaylistContext";
+import useProvideAuth from "../../utils/useProvideAuth";
 import { useUser } from "../../utils/UserContext";
 
 const Login = (props) => {
   const [user,setUser] = useUser(); // user context 
+  const [playlist, setPlaylist] = usePlaylist();
 
   let history = useHistory();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [usernameFeedback, setUsernameFeedback] = useState("");
   const [passwordFeedback, setPasswordFeedback] = useState("");
+  const [loggedIn, setLoggedIn] = useState(false);
 
+
+  // runs when the user submits the form
   const handleSubmit = (e) => {
     e.preventDefault(); // don't want form to submit
 
@@ -34,11 +40,37 @@ const Login = (props) => {
           joined: data.joined
         })
         console.log("login successful");
-        history.push("/");
+        setLoggedIn(true);
+        // fetch the library
       }
     })
   }
 
+  // runs when component mounts and when logged gets changed 
+  useEffect(() => {
+    if (loggedIn === false) {
+      return;
+    }
+    const abortCtrl = new AbortController();
+    const opts = {signal: abortCtrl.signal}
+    fetch("/api/user/library", opts) 
+      .then(res => res.json()) 
+      .then(data => {
+        console.log("library", data);
+        setPlaylist(data); // set the library to the loaded data
+        history.push("/");
+      })
+      .catch(error => {
+        console.error(error);
+      })
+
+    return () => {
+      abortCtrl.abort();
+    }
+  }, [loggedIn])
+
+
+  // jsx
   return (
     <form action="" onSubmit={handleSubmit}>
       <div className="form-group">

@@ -1,10 +1,58 @@
 import React, {useState, useEffect} from "react";
+import { usePlaylist } from "../../utils/PlaylistContext";
 import styles from "./SongItem.module.scss";
+
 
 // library, artistSearch, search 
 // these all have slight variations on how to lay them out
 const SongItem = (props) => {
   // console.log("songItem Props", props);
+  const  [favorite, setFavorite] = useState();
+  const [playlist, setPlaylist] = usePlaylist();
+
+  const handleFavorite = (e,id) => {
+    if (playlist.includes(id)) {
+      // then we need to remove the song from library
+      fetch("/api/user/remove-from-library", {
+        method: "DELETE",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({id: id})
+      })
+       .then(res => res.json())
+       .then(data => {
+          if (data.success) {
+           // change state for playlist
+            console.log("props", {...props});
+            setPlaylist(playlist.filter(item => item !== id)); // filter the array to get the results we want
+            console.log('trying to delete from the playlist');
+         }
+       })
+       .catch(error => {
+         console.log(error);
+       })
+    } else {
+      fetch("/api/user/add-to-library", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({id: id})
+      })
+       .then(res => res.json())
+       .then(data => {
+          if (data.success) {
+           // change state for playlist
+            console.log("made fetch to /api/user/add-to-library");
+            setPlaylist([...playlist, id]);
+         }
+       })
+       .catch(error => {
+         console.log(error);
+       })
+    }
+  }
+
+  // useEffect(() => {
+  //   console.log("playlist", playlist);
+  // }, [playlist])
 
   if (props.type === "search") {
     return (
@@ -19,7 +67,7 @@ const SongItem = (props) => {
           </div>
         </div>
         
-  
+
         <div>
           <p>{props.album_name}</p>
         </div>
@@ -28,9 +76,9 @@ const SongItem = (props) => {
           <p>{getFormattedSongDuration(props.duration)}</p>
         </div>
   
-        <div className={styles.callToAction}>
-          <svg width="2em" height="2em" viewBox="0 0 16 16" class="bi bi-three-dots-vertical" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-            <path fill-rule="evenodd" d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/>
+        <div className={styles.callToAction} >
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class={props.favorite ? styles.favorite : ''} viewBox="0 0 16 16" onClick={(e) => handleFavorite(e, props.track_id)}>
+            <path fill-rule="evenodd" d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.523-3.356c.329-.314.158-.888-.283-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767l-3.686 1.894.694-3.957a.565.565 0 0 0-.163-.505L1.71 6.745l4.052-.576a.525.525 0 0 0 .393-.288l1.847-3.658 1.846 3.658a.525.525 0 0 0 .393.288l4.052.575-2.906 2.77a.564.564 0 0 0-.163.506l.694 3.957-3.686-1.894a.503.503 0 0 0-.461 0z"/>
           </svg>
         </div>
       </div>
@@ -51,8 +99,8 @@ const SongItem = (props) => {
         <div className={styles.durationAndAction}>
           <div>{getFormattedSongDuration(props.duration)}</div>
           <div className={styles.callToAction}>
-            <svg width="2em" height="2em" viewBox="0 0 16 16" class="bi bi-three-dots-vertical" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-              <path fill-rule="evenodd" d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/>
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class={props.favorite ? styles.favorite : ''} viewBox="0 0 16 16" onClick={(e) => handleFavorite(e,props.track_id)}>
+              <path fill-rule="evenodd" d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.523-3.356c.329-.314.158-.888-.283-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767l-3.686 1.894.694-3.957a.565.565 0 0 0-.163-.505L1.71 6.745l4.052-.576a.525.525 0 0 0 .393-.288l1.847-3.658 1.846 3.658a.525.525 0 0 0 .393.288l4.052.575-2.906 2.77a.564.564 0 0 0-.163.506l.694 3.957-3.686-1.894a.503.503 0 0 0-.461 0z"/>
             </svg>
           </div>   
         </div>

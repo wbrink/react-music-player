@@ -1,15 +1,35 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {Route, Redirect} from "react-router-dom";
-import useIsAuthenticated from '../utils/useIsAuthenticated';
+import {usePlaylist} from "../utils/PlaylistContext";
+import {useLibrary} from "../utils/LibraryContext";
+import {useAuth} from "../utils/AuthContext";
+import useProvideAuth from '../utils/useProvideAuth';
+import Loading from "../Components/Loading/Loading";
 
 const PrivateRoute = ({children, ...rest}) => {
-  // let loggedIn = null;
-  let loggedIn = useIsAuthenticated();
+  const auth = useProvideAuth();
 
+  useEffect(() => {
+    auth.isAuthenticated();
+    return () => {
+      console.log("unmounting");
+    }
+  },[])
   
-
   return (
-    <Route {...rest} render={({location}) => loggedIn ? (children) : <Redirect to={{pathname: "/login", state: {from: location}}} />} />
+    <Route {...rest} render={({location}) => (
+      !auth.isLoading 
+        ? 
+        (
+          auth.authenticated
+            ?
+            (children)
+            : 
+            <Redirect to={{pathname: "/login", state: {from: location}}} />
+        )
+        :
+        <Loading />
+    )} />
   );
 }
  

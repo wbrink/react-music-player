@@ -53,14 +53,17 @@
 
   svg {
     cursor: pointer;
-    transition: fill .3s linear;
+    transition: all .2s linear;
     
     &:hover {
-      fill: purple;
+      transform: scale(1.3);
     }
   }
 }
 
+.favorite {
+  fill: rgb(21, 255, 0);
+}
 
 
 

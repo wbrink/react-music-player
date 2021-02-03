@@ -174,7 +174,7 @@ DELIMITER $$
 CREATE PROCEDURE getArtistTopTracks(
 	IN search INT)
 BEGIN 
-    SELECT t.track_id, t.track_name, t.duration, t.plays, a.artist_id, a.artist_name, al.album_art_path
+    SELECT t.track_id, t.track_name, t.duration, t.plays, a.artist_id, a.artist_name, al.album_art_path, al.album_id, al.album_name
 	FROM artists a
 	JOIN tracks t ON t.artist_id = a.artist_id
 	JOIN albums al ON t.album_id = al.album_id 
@@ -211,3 +211,29 @@ WHERE album_id = 4;
 
 CALL getArtistTopTracks(1);
 CALL getArtistDiscography(3);
+
+
+SELECT * FROM users;
+DELETE FROM users;
+INSERT INTO library (user_id) VALUES (1);
+SELECT * FROM library_tracks;
+DELETE FROM library_tracks;
+
+
+SELECT lt.user_id, lt.track_id, t.track_name, t.duration, t.track_path, a.artist_name, a.artist_picture_path, a.artist_id, al.album_name, al.album_art_path, al.album_id, lt.created
+FROM library_tracks lt
+JOIN users u ON lt.user_id = u.user_id
+JOIN tracks t ON lt.track_id = t.track_id
+JOIN artists a ON a.artist_id = t.artist_id
+JOIN albums al ON al.album_id = t.track_id
+WHERE lt.user_id = 3
+ORDER BY lt.created;
+
+SELECT u.user_id, lt.track_id, t.track_name, t.duration, t.track_path, al.album_name, al.album_art_path, al.album_id, a.artist_name, a.artist_id
+FROM library_tracks lt
+JOIN users u ON lt.user_id = u.user_id
+JOIN tracks t ON t.track_id = lt.track_id
+JOIN albums al ON t.album_id = al.album_id
+JOIN artists a ON a.artist_id = t.artist_id
+WHERE lt.user_id = 3
+ORDER BY lt.created;
