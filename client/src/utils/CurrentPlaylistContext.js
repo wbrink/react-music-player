@@ -1,9 +1,9 @@
 import React, {useContext, createContext, useState} from "react";
 
-const LibraryContext = createContext();
+const CurrentPlaylistContext = createContext();
 
-export const LibraryProvider = ({children}) => {
-  const [library, setLibrary] = useState([]); // will be an array of song objects that can be place in the songController
+export const CurrentPlaylistProvider = ({children}) => {
+  const [currentPlaylist, setCurrentPlaylist] = useState([]); // will be an array of song objects that can be place in the songController
 
   return (
     <LibraryContext.Provider value={[library, setLibrary]}>

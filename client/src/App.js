@@ -8,6 +8,7 @@ import Authenticate from "./Components/Authenticate/Authenticate";
 // import Explore from "./Components/Explore/Explore";
 import Search from "./Components/Search/Search";
 import Artist from "./Components/Artist/Artist";
+import Library from "./Components/Library/Library";
 
 // songProvider
 // import {LibraryProvider} from "./Contexts/LibraryContext";
@@ -95,6 +96,10 @@ function App() {
 
               <PrivateRoute path="/playlists" key="6">
                 <Playlists />
+              </PrivateRoute>
+
+              <PrivateRoute path="/library" key="9">
+                <Library />
               </PrivateRoute>
 
               <PrivateRoute path="/explore" key="7">
