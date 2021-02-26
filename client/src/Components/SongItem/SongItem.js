@@ -1,6 +1,5 @@
 import React, {useState, useEffect} from "react";
 import { useLibrary } from "../../utils/LibraryContext";
-import { usePlaylist } from "../../utils/PlaylistContext";
 import styles from "./SongItem.module.scss";
 
 
@@ -9,12 +8,19 @@ import styles from "./SongItem.module.scss";
 const SongItem = (props) => {
   // console.log("songItem Props", props);
   const  [favorite, setFavorite] = useState();
-  const [playlist, setPlaylist] = usePlaylist();
-  const [library, setLibrary] = useLibrary();
-
+  const {library, setLibrary} = useLibrary();
 
   const handleFavorite = (e, song) => {
-    if (playlist.includes(song.track_id)) {
+    // if library (which is an array of song objects has song.track_id)
+    let inLibrary = false;
+    for (let i = 0; i < library.length; i++) {
+      if (library[i].track_id === song.track_id) {
+        inLibrary = true;
+        break;
+      }
+    }
+
+    if (inLibrary) {
       // then we need to remove the song from library
       fetch("/api/user/remove-from-library", {
         method: "DELETE",
@@ -26,8 +32,6 @@ const SongItem = (props) => {
           if (data.success) {
            // change state for playlist
             console.log("props", {...props});
-            setPlaylist(playlist.filter(item => item !== song.track_id)); // filter the array to get the results we want
-            console.log('trying to delete from the playlist');
             setLibrary(library.filter(item => item.track_id !== song.track_id));
          }
        })
@@ -45,7 +49,6 @@ const SongItem = (props) => {
           if (data.success) {
            // change state for playlist
             console.log("made fetch to /api/user/add-to-library");
-            setPlaylist([...playlist, song.track_id]);
             setLibrary([...library, 
               { track_id: song.track_id, album_art_path: song.album_art_path, album_id: song.album_id,  
                 artist_id: song.artist_id, track_name: song.track_name, artist_name: song.artist_name, 
@@ -59,9 +62,6 @@ const SongItem = (props) => {
     }
   }
 
-  // useEffect(() => {
-  //   console.log("playlist", playlist);
-  // }, [playlist])
 
   if (props.type === "search") {
     return (

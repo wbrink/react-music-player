@@ -3,15 +3,15 @@ import styles from "./MusicPlayer.module.scss";
 
 import SongProgress from "./SongProgess";
 
-import {useLibraryState} from "../../Contexts/LibraryContext";
-import { useSongState } from "../../Contexts/SongContext";
+import {useCurrentPlaylist} from "../../utils/CurrentPlaylistContext"; // this is the context that gives the current playlist that is playing (library or search results) that is now how this is going to wr
 import {useLocation} from "react-router-dom";
+import { useMusic } from "../../utils/MusicContext";
 
 const MusicPlayer = (props) => {
+  const [currentPlaylist] = useCurrentPlaylist();
   const audioRef = useRef(null);
-  let audioElement;
-  let songToPlay; // local to this componenet and not a context state
   let location = useLocation();
+  let [music, setMusic] = useMusic();
   
   const [play, setPlay] = useState(false); // if false show the play button if true show the pause button
   const [duration, setDuration] = useState(0);
@@ -21,15 +21,10 @@ const MusicPlayer = (props) => {
   const PlayPauseClick = () => {
     // if song is paused or not playing
     if (!play) {
-      // let playPromise = audioRef.current.play();
       audioRef.current.play();
       console.log(audioRef.current.src)
       setPlay(true); 
     } else {
-      // if the song is playing change the global state of play to false
-      props.setState((prevState) => {
-        return {...prevState, play: false}
-      })
       audioRef.current.pause();
       setPlay(false);
     }
@@ -46,60 +41,62 @@ const MusicPlayer = (props) => {
 
   // press back on the music player
   const backClick = () => {
-    if (audioRef.current.currentTime > 2) {
-      audioRef.current.currentTime = 0;
-    } else {
-      if (props.state.index == 0) {
-        audioRef.current.currentTime = 0;
-      } else {
-        props.setState((prevState) => {
-          return {...prevState, index: prevState.index - 1}
-        })
-      }
-    }
+    // if (audioRef.current.currentTime > 2) {
+    //   audioRef.current.currentTime = 0;
+    // } else {
+    //   if (props.state.index == 0) {
+    //     audioRef.current.currentTime = 0;
+    //   } else {
+    //     props.setState((prevState) => {
+    //       return {...prevState, index: prevState.index - 1}
+    //     })
+    //   }
+    // }
+    console.log('clicked prev button on music player');
   }
 
   const fwdClick = () => {
-    if (props.state.onLibrary) {
-      if (props.state.index < props.state.library.length - 1) {
-        props.setState((prevState) => {
-          return {...prevState, index: prevState.index + 1}
-        })
-      } else {
-        props.setState((prevState) => {
-          return {
-            ...prevState, 
-            index: 0
-          }
-        })
-      }
-    }
+    // if (props.state.onLibrary) {
+    //   if (props.state.index < props.state.library.length - 1) {
+    //     props.setState((prevState) => {
+    //       return {...prevState, index: prevState.index + 1}
+    //     })
+    //   } else {
+    //     props.setState((prevState) => {
+    //       return {
+    //         ...prevState, 
+    //         index: 0
+    //       }
+    //     })
+    //   }
+    // }
+    console.log("clicked next button on music player");
   }
 
   // runs after first render and every time props.state.play runs
-  useEffect(() => {
-    if (props.state.play == true) {
-      setPlay(true);
-      audioRef.current.play();
-    }
-  }, [props.state.play, props.state.index])
+  // useEffect(() => {
+  //   if (props.state.play == true) {
+  //     setPlay(true);
+  //     audioRef.current.play();
+  //   }
+  // }, [props.state.play, props.state.index])
 
   
   // sets the audio element with the correct source
-  if (props.state.onLibrary && props.state.library.length == 0) {
-    return "";
-  } else if (props.state.onLibrary && props.state.library.length > 0) {
-    audioElement = <audio src={props.state.library[props.state.index].songURL} ref={audioRef} onTimeUpdate={(e) => {setSeek(e.target.currentTime)}} onCanPlay={canPlay} ></audio>
-    songToPlay = props.state.library[props.state.index];
-  } else {
-    if (props.state.altPlayList.length == 0) {
-      return "";
-    } else {
-      audioElement = <audio src={props.state.altPlayList[props.state.index].songURL} ref={audioRef} onTimeUpdate={(e) => {setSeek(e.target.currentTime)}} onCanPlay={canPlay} ></audio>
-    }
-  }
+  // if (props.state.onLibrary && props.state.library.length == 0) {
+  //   return "";
+  // } else if (props.state.onLibrary && props.state.library.length > 0) {
+  //   audioElement = <audio src={props.state.library[props.state.index].songURL} ref={audioRef} onTimeUpdate={(e) => {setSeek(e.target.currentTime)}} onCanPlay={canPlay} ></audio>
+  //   songToPlay = props.state.library[props.state.index];
+  // } else {
+  //   if (props.state.altPlayList.length == 0) {
+  //     return "";
+  //   } else {
+  //     audioElement = <audio src={props.state.altPlayList[props.state.index].songURL} ref={audioRef} onTimeUpdate={(e) => {setSeek(e.target.currentTime)}} onCanPlay={canPlay} ></audio>
+  //   }
+  // }
 
-  // if we are in login don't show the navbar 
+  // if we are in login don't show the player 
   if (location.pathname == "/login" || location.pathname == "/signup") {
     return null
   }
@@ -110,8 +107,8 @@ const MusicPlayer = (props) => {
     // container that holds play pause and slider
     <div className={styles.container}>
       
-      {audioElement}
-      {/* <audio src={props.state.library[0].songURL} ref={audioRef} onTimeUpdate={(e) => {setSeek(e.target.currentTime)}} onCanPlay={canPlay} ></audio> */}
+      {/* {audioElement} */}
+      <audio src={currentPlaylist[0]} ref={audioRef} onTimeUpdate={(e) => {setSeek(e.target.currentTime)}} onCanPlay={canPlay} ></audio>
 
       {/* new timeline that uses an input */}
       <SongProgress duration={duration} changeTime={changeTime} audio={audioRef} value={seek}/>
@@ -120,13 +117,13 @@ const MusicPlayer = (props) => {
 
 
       {/* subcontainer that holds other info */}
-      {props.state.library == undefined || props.state.library.length == 0
+      {currentPlaylist.length == 0
         ? <h1>Hello World</h1>
         : <div className={styles.subContainer}>
             <div className={styles.musicInfo}>
               <img src="./cover.jpg" alt="" id={styles.album}/>
               <div className={styles.songInfo}>
-                <p>{songToPlay.title}</p>
+                <p>{currentPlaylist[currentIndex]}</p>
                 <p>{songToPlay.artist}</p>
               </div>
             </div>

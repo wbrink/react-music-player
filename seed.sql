@@ -220,15 +220,6 @@ SELECT * FROM library_tracks;
 DELETE FROM library_tracks;
 
 
-SELECT lt.user_id, lt.track_id, t.track_name, t.duration, t.track_path, a.artist_name, a.artist_picture_path, a.artist_id, al.album_name, al.album_art_path, al.album_id, lt.created
-FROM library_tracks lt
-JOIN users u ON lt.user_id = u.user_id
-JOIN tracks t ON lt.track_id = t.track_id
-JOIN artists a ON a.artist_id = t.artist_id
-JOIN albums al ON al.album_id = t.track_id
-WHERE lt.user_id = 3
-ORDER BY lt.created;
-
 SELECT u.user_id, lt.track_id, t.track_name, t.duration, t.track_path, al.album_name, al.album_art_path, al.album_id, a.artist_name, a.artist_id
 FROM library_tracks lt
 JOIN users u ON lt.user_id = u.user_id

@@ -4,12 +4,13 @@ import SongController from "../SongItem/SongController";
 import styles from "./Library.module.scss";
 
 
-export default function Library() {
-  const [library, setLibrary] = useLibrary();
+export default function Library(props) {
+  const {library, setLibrary} = useLibrary();
 
   useEffect(() => {
     console.log("song has been changed from the library");
     console.log(library);
+    console.log(props);
   }, [library])
 
   return (

@@ -38,11 +38,6 @@ const useProvideAuth = () => {
       .catch(error => {
         console.log("caught an error", error);
         setAuthenticated(false);
-
-        if (error.name === "AbortError") {
-          console.log("request was cancelled");
-        }
-        return;
       })
       .then(() => setIsLoading(false))
   }

@@ -1,12 +1,12 @@
 import React, {useEffect, useState} from "react";
 import {useHistory} from "react-router-dom";
-import { usePlaylist } from "../../utils/PlaylistContext";
+import { useLibrary } from "../../utils/LibraryContext";
 import useProvideAuth from "../../utils/useProvideAuth";
 import { useUser } from "../../utils/UserContext";
 
 const Login = (props) => {
-  const [user,setUser] = useUser(); // user context 
-  const [playlist, setPlaylist] = usePlaylist();
+  const [user, setUser] = useUser(); // user context 
+  const {library, setLibrary} = useLibrary(); // this will set all the songinfo to this context provider
 
   let history = useHistory();
   const [username, setUsername] = useState("");
@@ -57,7 +57,8 @@ const Login = (props) => {
       .then(res => res.json()) 
       .then(data => {
         console.log("library", data);
-        setPlaylist(data); // set the library to the loaded data
+        setLibrary(data); // set the library to the loaded data
+
         history.push("/");
       })
       .catch(error => {

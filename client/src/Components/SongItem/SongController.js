@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import SongItem from "./SongItem";
-import {usePlaylist} from "../../utils/PlaylistContext";
+import {useLibrary} from "../../utils/LibraryContext";
 
 // component expects following props
 // songArray
@@ -8,10 +8,9 @@ import {usePlaylist} from "../../utils/PlaylistContext";
 
 
 const SongController = (props) => {
-  
+  let library_ids = []; //array of integers which are library ids
   const [currentSong, setCurrentSong] = useState("");
-  const [playlist, setPlaylist] = usePlaylist();
-
+  const {library, setLibrary} = useLibrary();
 
   const handleClick = () => {
     console.log("clicked song");
@@ -22,11 +21,13 @@ const SongController = (props) => {
     return (
       ""  
     )
+  } else {
+    library_ids = library.map(obj => obj.track_id);
   }
 
   return (
     props.songArray.map((obj, index) => {
-      const value = playlist.includes(obj.track_id);
+      const value = library_ids.includes(obj.track_id);
       return (
         <SongItem 
           type={props.type} 
@@ -48,5 +49,6 @@ const SongController = (props) => {
     })
   )
 }
+
 
 export default SongController;
